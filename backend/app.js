@@ -1,5 +1,7 @@
 import express from 'express'
 import router from './routes/products.js';
+import { errorMiddleware } from './middlewares/error.js';
+
 
 
 const app = express();
@@ -7,5 +9,11 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use('/api/v1',router);
+
+
+
+
+//error handler
+app.use(errorMiddleware)
 
 export default app;
