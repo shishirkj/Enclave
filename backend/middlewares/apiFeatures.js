@@ -26,7 +26,7 @@ class apiFeatures{
                     $options: "i",
                 }
             } : {};
-   console.log(key);
+   
             this.query = this.query.find({...key});
             return this
     }
@@ -40,10 +40,10 @@ class apiFeatures{
        
         let queryStr = JSON.stringify(queryCopy);
        
-        
+       
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g,(value)=>`$${value}`)
         queryStr = JSON.parse(queryStr);
-     
+        
 
         for(let i=0;i<skipQuery.length;i++)
         { 
