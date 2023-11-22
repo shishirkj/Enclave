@@ -39,6 +39,8 @@ export const getAllProduct = async (req, res, next) => {
   }
 };
 
+
+//product detail
 export const getProductDetails = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -97,3 +99,8 @@ export const deleteProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+//product review
+export const productReview  = async(req,res,next)=>{ 
+  
+}

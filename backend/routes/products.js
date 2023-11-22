@@ -7,12 +7,12 @@ const router = express.Router();
 
 
 router
-    .post('/new', isAuthenticated,authorizeRoles("admin"),createProduct)
+    .post('/admin/new', isAuthenticated,authorizeRoles("admin"),createProduct)
     .get('/products',getAllProduct)
     //an array is sent cauz it can be authorizeRoles("admin","editor") 
-    .put('/product/:id',isAuthenticated,authorizeRoles("admin"),updateProduct)
-    .delete('/product/:id',isAuthenticated,authorizeRoles("admin"),deleteProduct)
-    .get('/product/:id',isAuthenticated,authorizeRoles("admin"),getProductDetails)
+    .put('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),updateProduct)
+    .delete('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),deleteProduct)
+    .get('/product/:id',isAuthenticated,getProductDetails)
  
 
 export default router

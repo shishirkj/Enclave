@@ -34,9 +34,9 @@ export const loginUser = async (req, res, next) => {
 
     //401=unauthoraizes
     if (!user) return next(new ErrorHandler("Invalid email or password", 401));
-    const isMatched = bcrypt.compare(password, user.password);
+    const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched)
-      return new (next(new ErrorHandler("Invalid email or password", 401)))();
+      return new (next(new ErrorHandler("Invalid email or password", 401)));
 
     sendCookie(user, res, 200, `Hello ${user.name}`);
   } catch (error) {
@@ -44,7 +44,21 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+//logout user
+export const logoutUser = (req, res) => {
+  res
+    .status(200)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+    })
+    .json({
+      success: true,
+      message: "Logout confirmed",
+    });
+};
 
+
+//forgot password link creation
 export const forgotPassword = async (req, res,next) => {
   try{
   const { email } = req.body;
@@ -93,45 +107,205 @@ next(error)
 
 };
 
-//logout user
-export const logoutUser = (req, res) => {
-  res
-    .status(200)
-    .cookie("token", null, {
-      expires: new Date(Date.now()),
-    })
-    .json({
-      success: true,
-      message: "Logout confirmed",
-    });
-};
-
-
 //reset password
 export const resetPassword = async (req, res, next) => {
  
-
+try {
   const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(req.params.token)
-    .digest("hex");
+  .createHash("sha256")
+  .update(req.params.token)
+  .digest("hex");
 
-  const user = await User.findOne({
-    resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
+const user = await User.findOne({
+  resetPasswordToken,
+  resetPasswordExpire: { $gt: Date.now() },
+});
 
-  if (!user) return next(new ErrorHandler("Reset Password Token is invalid or has been expired", 400));
+if (!user) return next(new ErrorHandler("Reset Password Token is invalid or has been expired", 400));
 
-  if (req.body.password !== req.body.confirmPassword) return next(new ErrorHandler("Password does not match", 400));
+if (req.body.password !== req.body.confirmPassword) return next(new ErrorHandler("Password does not match", 400));
 
-  user.password = req.body.password;
+user.password = req.body.password;
 
-  user.resetPasswordToken = undefined;
+user.resetPasswordToken = undefined;
 
-  user.resetPasswordExpire = undefined;
+user.resetPasswordExpire = undefined;
+
+await user.save();
+
+sendCookie(user, res, 200,"password changed");
+  
+} catch (error) {
+  next(error)
+}
+
+};
+
+
+//get user details(no password seen in postman as select false)
+export const userDetails = async(req,res,next)=>{ 
+  try {
+    const user = await User.findById(req.user._id).select("+password");
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  
+  } catch (error) {
+    next(error)
+  }
+
+}
+
+
+//update user password after login
+export const updatePassword = async(req,res,next)=>{ 
+  
+try {
+  const user = await User.findById(req.user._id).select("+password")
+
+  const isMatched = await bcrypt.compare(req.body.password, user.password);
+  if (!isMatched)return next(new ErrorHandler("Old password is incorrect", 401));
+  
+  if(req.body.newPassword!=req.body.confirmPassword)  return next(new ErrorHandler("password does not match", 400));
+  
+  user.password = req.body.newPassword;
 
   await user.save();
 
-  sendCookie(user, res, 200,"password changed");
-};
+  sendCookie(user, res, 200, "password updated");
+
+} catch (error) {
+  next(error)
+}
+
+  
+}
+
+
+//update profile(name,image,profile pic)
+export const updateProfile = async(req,res,next)=>{ 
+  try {
+    
+    const {name,email} = req.body;
+
+    const newUserData = {
+      name,email
+    };
+  
+    //no need to do user.save() cauz findByIdUpdate does it
+      const user= await User.findByIdAndUpdate(req.user._id,newUserData,{ 
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      });
+  
+      //profile pic later
+  
+      res.status(200).json({ 
+        success:true,
+        message:"profile updated",
+        user
+      })
+  
+  } catch (error) {
+   
+    next(error)
+  }
+
+
+}
+
+
+//get all user --admin
+
+export const getAllUsers = async(req,res,next)=>{ 
+
+  try {
+    const users = await  User.find();
+
+  res.json({ 
+    success:true,
+    message:"All user details",
+    users
+  })
+    
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+//get single user --admin
+
+export const getSingleUser = (async (req, res, next) => {
+ try {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User does not exist with Id: ${req.params.id}`)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+ } catch (error) {
+  next(error)
+ }
+});
+
+
+//update user role --admin
+
+export const updateUserRole = async(req,res,next)=>{ 
+  try {
+    const user = await User.findById(req.params.id);
+
+    if(!user)return new ErrorHandler(`User does not exist with Id: ${req.params.id}`,400)
+  
+  
+    //we send name and email as well cauz to tell which user to update the role
+      const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role,
+    };
+  
+     //no need to do user.save() cauz findByIdUpdate does it
+    await User.findByIdAndUpdate(req.params.id,newUserData,{ 
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    })
+  res.status(200).json({ 
+    success:true,
+    message:"role updated"
+  })
+    
+    
+  } catch (error) {
+    next(error);
+  }
+ 
+}
+
+
+//delete user --admin
+export const deleteUser = async(req,res,next)=>{ 
+  try {
+    const user = await User.findById(req.params.id);
+    if(!user) return new ErrorHandler(`User does not exist with Id: ${req.params.id}`,400)
+    res.status(200).json({ 
+     succes:true,
+     message: `${user.name} user deleted`
+    })
+    await User.deleteOne(user);
+  } catch (error) {
+    next(error)
+  }
+
+}
