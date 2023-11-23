@@ -3,6 +3,7 @@ import router from './routes/products.js';
 import { errorMiddleware } from './middlewares/error.js';
 import userRoute from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser';
+import orderRoute from './routes/orderRoutes.js';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use('/api/v1',router);
 app.use('/api/v1',userRoute)
+app.use('/api/v1',orderRoute)
 
 
 

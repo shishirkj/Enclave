@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProduct, deleteProduct, getAllProduct, getProductDetails, updateProduct } from "../controllers/productControllers.js";
+import { createAndUpdateProductReview, createProduct, deleteProduct, deleteReviews, getAllProduct, getAllreviews, getProductDetails, updateProduct } from "../controllers/productController.js";
 import { isAuthenticated,authorizeRoles } from '../middlewares/auth.js';
 
 
@@ -13,6 +13,9 @@ router
     .put('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),updateProduct)
     .delete('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),deleteProduct)
     .get('/product/:id',isAuthenticated,getProductDetails)
+    .put('/review',isAuthenticated,createAndUpdateProductReview)
+    .get('/reviews',isAuthenticated,getAllreviews)
+    .delete('/reviews',isAuthenticated,authorizeRoles("admin"),deleteReviews)
  
 
 export default router
