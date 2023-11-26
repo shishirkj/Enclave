@@ -1,11 +1,12 @@
 import app from "./app.js"
-import { config } from "dotenv"
+import { config } from "dotenv";
 import connectDB from "./data/database.js";
 
   
-config({ 
-    path:"backend/data/config.env",
+config({
+  path: "C:/Users/reach/Desktop/enclave/backend/data/config.env",
 });
+
 
 
 connectDB();

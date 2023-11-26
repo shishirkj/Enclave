@@ -1,2 +1,4 @@
-/node_modules
-/data/config.env
+backend/node_modules
+backend/data/config.env
+frontend/node_modules
+
