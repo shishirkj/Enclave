@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function navBar() {
   return (
@@ -13,9 +14,9 @@ export default function navBar() {
             </a>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
-                <a className="hover:text-gray-200" href="#">
+                <Link to = "/" className="hover:text-gray-200">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
                 <a className="hover:text-gray-200" href="#">

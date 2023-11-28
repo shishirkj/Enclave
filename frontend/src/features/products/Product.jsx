@@ -3,15 +3,19 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAsync } from "./productSlice";
 import { Link } from "react-router-dom";
+import Loading from "../../components/Loading.jsx/Loading";
+
 
 export default function Product() {
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
 
-  const dispatch = useDispatch();
+  const  loading = useSelector(state=>state.product.status);
+
 
   useEffect(() => {
-    dispatch(fetchAsync());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(fetchAsync())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const options = {
@@ -29,26 +33,21 @@ export default function Product() {
     <div>
    
       <div className="container flex flex-wrap justify-center ">
-      
-        { products.map((product) => (
+        {loading==='loading'?<Loading/>:<> {  products.map((product) => (
          <Link to={product._id} key={product._id} >
           <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md hover:translate-y-2 transition-all">
-            <a href="#">
               <img
                 className="h-60 rounded-t-lg object-cover"
                 src={product.images[0].url}
                 alt={product.name}
               />
-            </a>
             <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">
               Sale
             </span>
-            <div className="mt-4 px-5 pb-5">
-              <a href="#">
+            <div className="mt-4 px-5 pb-5">       
                 <h5 className="text-xl font-semibold tracking-tight text-slate-900">
                   {product.name}
                 </h5>
-              </a>
               <div className="mt-2.5 mb-5 flex items-center">
                 <span className="mr-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
                   {product.ratings}
@@ -73,10 +72,7 @@ export default function Product() {
                   </span>
                   <span className="text-sm text-slate-900 line-through">{ `₹${product.price+500}`}</span>
                 </p>
-                <a
-                  href="#"
-                  className="flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                >
+                
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="mr-2 h-6 w-6"
@@ -92,11 +88,13 @@ export default function Product() {
                     />
                   </svg>
                   Add to cart
-                </a>
+
               </div>
             </div>
           </div>
-          </Link>))}
+          </Link>))}</>}
+      
+       
       </div>
     </div>
   );

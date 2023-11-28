@@ -1,5 +1,6 @@
 import axios from "axios"
 
-export  function fetchProducts(){ 
-    return  axios.get("http://localhost:5000/api/v1/products")
+// A mock function to mimic making an async request for data
+export function fetchProducts() {
+  return  axios.get('http://localhost:5000/api/v1/products')
 }

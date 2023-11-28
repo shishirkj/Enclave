@@ -1,45 +1,49 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchProducts } from "./productApi";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { fetchProducts } from './productAPI';
 
 const initialState = {
   products: [],
-  loading: "false",
-  error: '',
-  productsFetched: false
+  status: 'idle',
+  error:''
 };
 
-export const fetchAsync = createAsyncThunk('products/fetchProducts', async () => {
-try{
+//action creator->fetchAsync
+export const fetchAsync = createAsyncThunk(
+  //action type->products/fetchProducts
+  'products/fetchProducts',
+  async () => {
     const response = await fetchProducts();
+    // The value we return becomes the `fulfilled` action payload
     return response.data.products;
-}
-catch(error){
-  console.log(error.message)
-}
-  
-});
+  }
+);
 
-const productSlice = createSlice({
+
+export const productSlice = createSlice({
   name: 'products',
   initialState,
+  // The `reducers` field lets us define reducers and generate associated actions
+  reducers: {
+  
+  },
+  
+
+  //reducers
   extraReducers: (builder) => {
     builder
       .addCase(fetchAsync.pending, (state) => {
-        
-        state.loading = "true";
-        console.log("Pending: Loading is true");
+        state.status = 'loading';
       })
       .addCase(fetchAsync.fulfilled, (state, action) => {
-        state.loading ="false";
-        console.log("Fulfilled: Loading is false");
+        state.status = 'idle';
         state.products = action.payload;
-        state.productsFetched = "true";
       })
       .addCase(fetchAsync.rejected, (state, action) => {
-        state.loading = "false";
-        state.error = action.error.message;
+        state.status = 'idle';
+        state.error=action.error.message;
       });
-  }
+  },
 });
 
+// export const {} = productSlice.actions;
 export default productSlice.reducer;
