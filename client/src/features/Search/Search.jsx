@@ -12,11 +12,12 @@ export default function Search() {
         e.preventDefault();
        
         const path = key.trim() ? `/products/${key}` : `/products`;
+        
         history(path);
     }
 
     return (
-        <div className={`absolute top-19 right-12 ${isSearchIconClicked ? 'visible' : 'invisible'}`}>
+        <div className={`z-[12] curso absolute top-24 right-12 ${isSearchIconClicked ? 'visible' : 'invisible'}`}>
             <form onSubmit={searchSubmit} className="flex items-center">
                 <input
                     type='text'

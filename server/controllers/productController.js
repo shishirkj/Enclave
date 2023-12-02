@@ -23,7 +23,7 @@ export const createProduct = async (req, res, next) => {
 export const getAllProduct = async (req, res, next) => {
   try {
     const productCount = await Product.countDocuments();
-    const resultPerPage = 9;
+    const resultPerPage = 7;
     //in Productbhi de sakte hai and Product.find() bhi
     const apiFeature = new apiFeatures(Product, req.query).search()
     apiFeature.pagination(resultPerPage)
@@ -36,7 +36,8 @@ export const getAllProduct = async (req, res, next) => {
     res.status(200).json({
       sucess: true,
       products,
-      productCount
+      productCount,
+      resultPerPage
     });
   } catch (error) {
     next(error);

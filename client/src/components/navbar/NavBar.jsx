@@ -21,7 +21,7 @@ const toggleMenu = () => {
 
 
 
-console.log(isSearchIconClicked);
+
   return (
     <>
   
@@ -30,9 +30,9 @@ console.log(isSearchIconClicked);
         {/* navbar */}
         <nav className="flex justify-between bg-gray-900 text-white w-screen">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-            <a className="text-3xl font-bold font-heading" href="#">
+            <Link to = '/' className="text-3xl font-bold font-heading" >
               Enclave
-            </a>
+            </Link>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
                 <Link to = "/" className="hover:text-gray-200">
@@ -40,14 +40,12 @@ console.log(isSearchIconClicked);
                 </Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Catagory
-                </a>
+              <Link to = '/category' className="hover:text-gray-200">Category</Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Collections
-                </a>
+                <Link to = '/products' className="hover:text-gray-200" >
+                  Products
+                </Link>
               </li>
               <li>
                 <a className="hover:text-gray-200" href="#">
@@ -133,7 +131,7 @@ console.log(isSearchIconClicked);
               <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
             </span>
           </a>
-          <div onClick={toggleSearch} className="xl:hidden flex mr-6 items-center" >
+          <div onClick={toggleSearch} className=" cursor-pointer xl:hidden flex mr-6 items-center" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -149,7 +147,7 @@ console.log(isSearchIconClicked);
                   />
                 </svg>
               </div>
-          <a onClick = {toggleMenu}className="navbar-burger self-center mr-12 xl:hidden" href="#">
+          <a onClick = {toggleMenu} className="navbar-burger self-center mr-12 xl:hidden" href="#">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 hover:text-gray-200"
@@ -167,7 +165,7 @@ console.log(isSearchIconClicked);
           </a>
         </nav>
         {isMenuOpen && (
-          <div className="xl:hidden bg-gray-900 text-white p-4">
+          <div className="  xl:hidden  bg-gray-900 text-white p-4">
             <ul className="space-y-4">
               <li>
                 <Link to="/" className="hover:text-gray-200">
@@ -175,14 +173,12 @@ console.log(isSearchIconClicked);
                 </Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Category
-                </a>
+                <Link to = '/category' className="hover:text-gray-200">Category</Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Collections
-                </a>
+              <Link to = '/products' className="hover:text-gray-200">
+                  Products
+                </Link>
               </li>
               <li>
                 <a className="hover:text-gray-200" href="#">

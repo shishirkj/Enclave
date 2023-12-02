@@ -9,18 +9,18 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Product() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products);
+  const {products,loading,error} = useSelector((state) => state.product);
 
-  const  loading = useSelector(state=>state.product.status);
-  const error = useSelector(state=>state.product.error)
+    
 
+const key = ''
 
   useEffect(() => {
     if (error) {
-      console.log(error)
+      
       toast.error(error)
       }
-      dispatch(fetchAsync());
+      dispatch(fetchAsync(key));
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, error]);

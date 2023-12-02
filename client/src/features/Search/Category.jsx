@@ -10,43 +10,74 @@ import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import { useState } from "react";
 
+import 'react-range-slider-input/dist/style.css';
 
-export default function FilterProducts() {
-  const dispatch = useDispatch();
-  const {products,loading,error,productCount,resultPerPage} = useSelector((state) => state.product);
-  const { key } = useParams() || "";
 
-  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-      toast.error(error);
-    }
-
-    dispatch(fetchAsync({ key, currentPage }));
-  }, [dispatch, error, key, currentPage]);
-
-  function changePage(e) {
-    setCurrentPage(e);
-  }
-
-  const options = {
-    edit: false,
-    color: "rgba(20,20,20,0.1)",
-    activeColor: "tomato",
-    value: true,
-    isHalf: true,
-    size: window.innerWidth < 600 ? 20 : 25,
-  };
+export default function Category() {
+    const dispatch = useDispatch();
+    const {products,loading,error,productCount,resultPerPage} = useSelector((state) => state.product);
+    const { key } = useParams() || "";
   
+    const [currentPage, setCurrentPage] = useState(1);
+    let [selectedCategory, setSelectedCategory] = useState('');
+    useEffect(() => {
+      if (error) {
+        console.log(error);
+        toast.error(error);
+      }
+  
+      dispatch(fetchAsync({ key, currentPage,selectedCategory}));
+    }, [dispatch, error, key, currentPage,selectedCategory]);
+  
+    function changePage(e) {
+      setCurrentPage(e);
+    }
+  
+    const options = {
+      edit: false,
+      color: "rgba(20,20,20,0.1)",
+      activeColor: "tomato",
+      value: true,
+      isHalf: true,
+      size: window.innerWidth < 600 ? 20 : 25,
+    };
+    
+  const categories = ["Laptop", "Phone", "Footwear", "Camera", "Bottom"];
+  const handleCheckboxChange = (category) => {
+    // If the clicked checkbox is already selected, unselect it
+    // Otherwise, select it and unselect others
+    setSelectedCategory((prev) => (prev === category ? '' : category));
+  };
+
   return (
     <div>
-      <div className="container flex flex-wrap justify-center ">
-        {loading === "loading" ? (
+        <div className='flex  md:h-[2000px]'>
+      <div className="relative w-1/5 bg-gray-900 ">
+  
+        {categories.map((category, index) => (
+          <div className="p-2 py-4" key={index}>
+            
+            <label className="   flex items-center space-x-2">
+            <input
+                  onChange={() => handleCheckboxChange(category)}
+                  checked={selectedCategory === category}
+                  type="checkbox"
+                  className="text-white"
+                  disabled={selectedCategory && selectedCategory !== category}
+                />
+              <span className=" font-bold text-roberto text-xs md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-white">{category}</span>
+            </label>
+          </div>
+
+        ))}
+     
+      </div>
+      {loading === "loading" ? (
           <Loading />
         ) : (
           <>
+          <div className= 'relative h-screen flex flex-wrap justify-center w-4/5 md:flex md:flex-wrap md:justify-center  '>
             {products &&
               products.map((product) => (
                 <Link to={`/product/${product._id}`} key={product._id}>
@@ -108,10 +139,11 @@ export default function FilterProducts() {
                   </div>
                 </Link>
               ))}
-          </>
+              </div>
+          </>//end of image card 
         )}
-      </div>
-      <ToastContainer
+</div>
+<ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -123,22 +155,21 @@ export default function FilterProducts() {
         pauseOnHover
         theme="colored"
       />
-
-      <div className="flex justify-center  m-7 ">
+  <div className="flex justify-center  m-7 ">
       
-       {resultPerPage<productCount &&  
-       <Pagination
-       activePage={currentPage}
-       itemsCountPerPage={resultPerPage}
-       totalItemsCount={productCount}
-       onChange={changePage}
-       itemClass="relative inline-block px-3 py-2 leading-5 border rounded-md bg-gray-800 border-gray-800 text-white text-lg font-medium hover:bg-gray-700 focus:z-10 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:bg-gray-900 transition duration-150 ease-in-out m-[2px]"
-       activeClass="z-10 bg-gray-800 text-white border-blue-500 hover:bg-gray-500"
-       
-     />} 
+      {resultPerPage<productCount &&  
+      <Pagination
+      activePage={currentPage}
+      itemsCountPerPage={resultPerPage}
+      totalItemsCount={productCount}
+      onChange={changePage}
+      itemClass="relative inline-block px-3 py-2 leading-5 border rounded-md bg-gray-800 border-gray-800 text-white text-lg font-medium hover:bg-gray-700 focus:z-10 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:bg-gray-900 transition duration-150 ease-in-out m-[2px]"
+      activeClass="z-10 bg-gray-800 text-white border-blue-500 hover:bg-gray-500"
+      
+    />} 
 
-        
-        </div> {/*end of container div */}
-    </div> // end of return div
+
+       </div> 
+    </div>
   );
 }

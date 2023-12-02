@@ -5,7 +5,9 @@ const initialState = {
   products: [],
   status: 'idle',
   error:'',
-  isSearchIconClicked:false
+  isSearchIconClicked:false,
+  productCount:0,
+  resultPerPage:0
 };
 
 
@@ -13,13 +15,15 @@ const initialState = {
 export const fetchAsync = createAsyncThunk(
   //action type->products/fetchProducts
   'products/fetchProducts',
-  async () => {
-    
-      const response = await fetchProducts();
-      return response.data.products;
+  async ({key='',currentPage,selectedCategory=''}) => {
+  
+    console.log(key)
+      const response = await fetchProducts(key,currentPage,selectedCategory);
+      return response.data;
   
   }
 );
+
 
 
 export const productSlice = createSlice({
@@ -40,7 +44,9 @@ export const productSlice = createSlice({
       })
       .addCase(fetchAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.productCount = action.payload.productCount,
+        state.resultPerPage = action.payload.resultPerPage
       })
       .addCase(fetchAsync.rejected, (state, action) => {
         state.status = 'idle';

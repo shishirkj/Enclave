@@ -4,7 +4,7 @@ import connectDB from "./data/database.js";
 
   
 config({
-  path: "C:/Users/reach/Desktop/enclave/backend/data/config.env",
+  path: "C:/Users/reach/Desktop/enclave/server/data/config.env",
 });
 
 

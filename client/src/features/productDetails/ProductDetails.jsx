@@ -18,7 +18,7 @@ export default function ProductDetails() {
   const loading = useSelector((state) => state.productDetail.status);
   const { images } = productDetails;
 
-console.log(productDetails)
+
   useEffect(() => {
     dispatch(fetchAsync(productId));
   }, [dispatch, productId]);

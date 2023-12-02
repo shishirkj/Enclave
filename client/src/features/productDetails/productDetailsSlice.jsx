@@ -37,7 +37,7 @@ export const productDetailsSlice = createSlice({
       .addCase(fetchAsync.fulfilled, (state, action) => {
        
         state.status = 'idle';
-        console.log()
+       
         state.productDetails = action.payload;
       })
       .addCase(fetchAsync.rejected, (state, action) => {
