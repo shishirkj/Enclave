@@ -14,13 +14,15 @@ export default function Product() {
     
 
 const key = ''
+const selectedCategory=''
+
 
   useEffect(() => {
     if (error) {
       
       toast.error(error)
       }
-      dispatch(fetchAsync(key));
+      dispatch(fetchAsync(key,selectedCategory));
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, error]);

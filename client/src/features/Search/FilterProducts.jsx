@@ -15,6 +15,7 @@ export default function FilterProducts() {
   const dispatch = useDispatch();
   const {products,loading,error,productCount,resultPerPage} = useSelector((state) => state.product);
   const { key } = useParams() || "";
+ 
 
   const [currentPage, setCurrentPage] = useState(1);
 

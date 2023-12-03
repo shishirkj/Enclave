@@ -9,8 +9,10 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import { useState } from "react";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import 'rc-slider/assets/index.css';
 
-import 'react-range-slider-input/dist/style.css';
 
 
 
@@ -20,18 +22,26 @@ export default function Category() {
     const { key } = useParams() || "";
   
     const [currentPage, setCurrentPage] = useState(1);
+    const [price,setPrice] = useState([0,25000])
     let [selectedCategory, setSelectedCategory] = useState('');
+    
     useEffect(() => {
       if (error) {
         console.log(error);
         toast.error(error);
       }
-  
-      dispatch(fetchAsync({ key, currentPage,selectedCategory}));
-    }, [dispatch, error, key, currentPage,selectedCategory]);
+        
+      dispatch(fetchAsync({ key, currentPage,...(selectedCategory !== '' && { selectedCategory }),price}));
+    }, [dispatch, error, key, currentPage,selectedCategory,price]);
   
     function changePage(e) {
       setCurrentPage(e);
+    }
+    const handleSliderChange=(value)=>{ 
+      // value = e
+     
+        setPrice([value,25000])
+        
     }
   
     const options = {
@@ -50,15 +60,31 @@ export default function Category() {
     setSelectedCategory((prev) => (prev === category ? '' : category));
   };
 
+ 
+
   return (
     <div>
         <div className='flex  md:h-[2000px]'>
       <div className="relative w-1/5 bg-gray-900 ">
   
+  <p className=" mt-7 mb-2 text-xs md:text-sm lg:text-lg xl:text-base lg:pl-5 md:pl-2 text-white font-roboto">Price Range</p>
+
+  <Slider className=" ml-2 mb-4  w-[4rem]  lg:w-[9rem]" 
+   min={0}
+   max={25000}
+   step={1}
+   onChange={handleSliderChange} 
+   valueLabelDisplay="on"
+   getAriaValueText={(value) => {
+    return `Value: ${value}`;
+  }}
+   />
+
+
         {categories.map((category, index) => (
           <div className="p-2 py-4" key={index}>
             
-            <label className="   flex items-center space-x-2">
+            <label className="   flex items-center space-x-1">
             <input
                   onChange={() => handleCheckboxChange(category)}
                   checked={selectedCategory === category}
@@ -66,7 +92,7 @@ export default function Category() {
                   className="text-white"
                   disabled={selectedCategory && selectedCategory !== category}
                 />
-              <span className=" font-bold text-roberto text-xs md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-white">{category}</span>
+              <span className=" pr-3 font-bold text-roberto text-xs md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-white">{category}</span>
             </label>
           </div>
 
@@ -81,7 +107,7 @@ export default function Category() {
             {products &&
               products.map((product) => (
                 <Link to={`/product/${product._id}`} key={product._id}>
-                  <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md hover:translate-y-2 transition-all">
+                  <div className="relative m-10 w-100 max-w-xs overflow-hidden rounded-lg bg-white shadow-md hover:translate-y-2 transition-all">
                     <img
                       className="h-60 rounded-t-lg object-cover"
                       src={product.images[0].url}

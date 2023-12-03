@@ -15,10 +15,10 @@ const initialState = {
 export const fetchAsync = createAsyncThunk(
   //action type->products/fetchProducts
   'products/fetchProducts',
-  async ({key='',currentPage,selectedCategory=''}) => {
+  async ({key='',currentPage,selectedCategory='',price=[0,25000]}) => {
   
-    console.log(key)
-      const response = await fetchProducts(key,currentPage,selectedCategory);
+    console.log(price)
+      const response = await fetchProducts(key,currentPage,selectedCategory,price);
       return response.data;
   
   }
