@@ -17,7 +17,7 @@ export const fetchAsync = createAsyncThunk(
   'products/fetchProducts',
   async ({key='',currentPage,selectedCategory='',price=[0,25000]}) => {
   
-    console.log(price)
+   
       const response = await fetchProducts(key,currentPage,selectedCategory,price);
       return response.data;
   
