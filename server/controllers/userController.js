@@ -68,7 +68,7 @@ export const forgotPassword = async (req, res,next) => {
     return next(new ErrorHandler("User not found", 404));
   }
 
-    // Get ResetPassword Token
+    // Get ResetPassword Token from funcn in userModel
   const resetToken = user.getResetPasswordToken();
     
     await user.save({ validateBeforeSave: false });

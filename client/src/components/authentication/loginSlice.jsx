@@ -13,9 +13,10 @@ const initialState = {
 export const addAsync = createAsyncThunk(
   'register/User',
   async (form) => {
-    console.log(form)
+    
     const response = await register(form)
     // The value we return becomes the `fulfilled` action payload
+    console.log(response.data)
     return response.data;
   }
 );
@@ -40,7 +41,7 @@ export const loginSlice = createSlice({
       })
     .addCase(addAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.form.push(action.payload);
+        state.form=action.payload;
       })
     .addCase(addAsync.rejected, (state, action) => {
         state.status = 'idle';

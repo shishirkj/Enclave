@@ -1,52 +1,65 @@
 
-import { useEffect, useState } from "react";
+import {  useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAsync } from "./loginSlice";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
+
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({name:'',email:'',password:''});
   const dispatch = useDispatch();
 
-  const error = useSelector(state=>state.login)
+  const error = useSelector(state=>state.login.error)
+
+  useEffect(() => {
+    if (error) {
+      if (error === 'Request failed with status code 400') {
+        toast.error('User Already registered');
+      } else {
+        toast.error('An error occurred during registration');
+        
+      }
+    }
+  }, [error]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  //FORM CHANGE
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+  // eslint-disable-next-line no-unused-vars
+  let name,value
+ 
+const handleInputs=(e)=>{ 
+  
+name = e.target.name;
+value = e.target.value;
+//we spread the operator because if not and just directly change we only get that property and value
+setForm({...form,[name]:value})
+}
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
+  
   const registerUser = (e) => {
     e.preventDefault();
-    setForm({ name, email, password });
-  };
-
-
-  useEffect(()=>{ 
-    if (error) {
-      
-      toast.error(error)
+    
+      const {name,password}=form;  
+      if(name.length<4)
+      { 
+        toast.error('Name should have more than 4 characters')
+        
       }
-    dispatch(addAsync(form))
-  },[dispatch,form,error])
+      if(password.length<8)
+      { 
+        toast.error('Password should be greater than 8 characters')
+        
+      }
+  
+    dispatch(addAsync(form));
+  };
 
 
   return (
@@ -165,7 +178,7 @@ export default function Login() {
           {" "}
           <section className="bg-white ">
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-              <form onSubmit={registerUser} className="w-full max-w-md">
+              <form onSubmit={registerUser} method="POST" className="w-full max-w-md">
                 <div className="flex justify-center mx-auto">
                   <h1 className="text-5xl pb-7 font-extrabold underline">
                     <span className=" text-gray-900 ">Envc</span>
@@ -191,9 +204,9 @@ export default function Login() {
                     </svg>
                   </span>
                   <input
-                    type="text"
-                    value={name}
-                    onChange={handleNameChange}
+                    type="text" name='name'
+                    value={form.name}
+                    onChange={handleInputs}
                     className="block w-full py-3 text-white bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-white dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Username"
                   />
@@ -217,9 +230,9 @@ export default function Login() {
                     </svg>
                   </span>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={handleEmailChange}
+                    type="email" name='email'
+                    value={form.email}
+                    onChange={handleInputs}
                     className="block w-full py-3 text-white bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Email address"
                   />
@@ -265,9 +278,9 @@ export default function Login() {
                     </svg>
                   </span>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={handlePasswordChange}
+                    type={showPassword ? "text" : "password"} name='password'
+                    value={form.password}
+                    onChange={handleInputs}
                     className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Password"
                   />
