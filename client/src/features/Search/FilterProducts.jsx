@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export default function FilterProducts() {
   const dispatch = useDispatch();
-  const {products,loading,error,productCount,resultPerPage} = useSelector((state) => state.product);
+  const {products,status,error,productCount,resultPerPage} = useSelector((state) => state.product);
   const { key } = useParams() || "";
  
 
@@ -44,7 +44,7 @@ export default function FilterProducts() {
   return (
     <div>
       <div className="container flex flex-wrap justify-center ">
-        {loading === "loading" ? (
+        {status === "loading" ? (
           <Loading />
         ) : (
           <>

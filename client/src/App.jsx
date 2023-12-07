@@ -8,35 +8,37 @@ import Search from "./features/Search/Search";
 import FilterProducts from "./features/Search/FilterProducts";
 import Category from './features/Search/Category'
 import Login from "./components/authentication/Login";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+
+
+
+
+
 export default function App() {
 
-  const [check,setCheck] = useState(false)
- 
+  const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
+
+
+
   return (
+  
     <Router>
       <div className="overflow-x-hidden">
       
       
-      {check?(<><Search/>
-            <NavBar/>
+    <Search/>
+           {isAuthenticated?<NavBar/>:''}
             <Routes>   
               <Route path="/" element={<Home />} />
-              <Route path="/product/:productId" element={<ProductDetails />}/>
+             <Route path="/product/:productId" element={<ProductDetails />}/>
               < Route path = "/products/product/:productId" element = {<ProductDetails/>}/>
+              {/* on click to products */}
               <Route path="/products" element = {<FilterProducts/>} />  
               <Route path="/products/:key" element = {<FilterProducts/>} />  
-              <Route path = '/category' element = {<Category/>}/>       
+              <Route path = '/category' element = {<Category/>}/>  
+              <Route path= '/login'  element = {<Login/>}/>  
             </Routes>
-            <Footer/>
-   </> ):
-   <>
-    <Login/>
-    </>
-   }
-
-
-            
+            {isAuthenticated?<Footer/>:''}         
       </div>
     </Router>
   );

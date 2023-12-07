@@ -18,7 +18,8 @@ import 'rc-slider/assets/index.css';
 
 export default function Category() {
     const dispatch = useDispatch();
-    const {products,loading,error,productCount,resultPerPage} = useSelector((state) => state.product);
+    const {products,status,error,productCount,resultPerPage} = useSelector((state) => state.product);
+    //by this when we click card we get the param and use it to show searched product using search box
     const { key } = useParams() || "";
   
     const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +100,7 @@ export default function Category() {
         ))}
      
       </div>
-      {loading === "loading" ? (
+      {status === "loading" ? (
           <Loading />
         ) : (
           <>

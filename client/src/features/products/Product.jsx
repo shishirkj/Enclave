@@ -9,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Product() {
   const dispatch = useDispatch();
-  const {products,loading,error} = useSelector((state) => state.product);
+  const {products,status,error} = useSelector((state) => state.product);
 
     
-
+//key is for product details here we use key cauz if we go to home page it will show error that key is undefined
 const key = ''
 const selectedCategory=''
 
@@ -42,7 +42,8 @@ const selectedCategory=''
     <div>
    
       <div className="container flex flex-wrap justify-center ">
-        {loading==='loading'?<Loading/>:<> { products && products.map((product) => (
+     
+        {status==='loading'?<Loading/>:<> { products && products.map((product) => (
          <Link to={`product/${product._id}`} key={product._id} >
           <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md hover:translate-y-2 transition-all">
               <img

@@ -12,6 +12,7 @@ router
     //an array is sent cauz it can be authorizeRoles("admin","editor") 
     .put('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),updateProduct)
     .delete('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),deleteProduct)
+    //need to add isAuthenticated below
     .get('/product/:id',getProductDetails)
     .put('/review',isAuthenticated,createAndUpdateProductReview)
     .get('/reviews',isAuthenticated,getAllreviews)
