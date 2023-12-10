@@ -1,7 +1,7 @@
 import app from "./app.js"
 import { config } from "dotenv";
 import connectDB from "./data/database.js";
-
+import cloudinary from 'cloudinary';
   
 config({
   path: "C:/Users/reach/Desktop/enclave/server/data/config.env",
@@ -10,6 +10,14 @@ config({
 
 
 connectDB();
+
+          
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET 
+});
+
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {

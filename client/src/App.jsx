@@ -9,15 +9,28 @@ import FilterProducts from "./features/Search/FilterProducts";
 import Category from './features/Search/Category'
 import Login from "./components/authentication/Login";
 import { useSelector } from "react-redux";
-
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getUserDetailAsync } from "./components/authentication/loginSlice";
 
 
 
 export default function App() {
 
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
+  const error = useSelector(state=>state.login.error)
 
+const dispatch  = useDispatch()
+
+
+  useEffect(()=>{ 
+ if(error)
+ {
+   console.warn(error)
+ }
+      dispatch(getUserDetailAsync())
+
+  },[dispatch,error])
 
 
   return (

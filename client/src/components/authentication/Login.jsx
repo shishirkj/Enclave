@@ -1,7 +1,7 @@
 
 import {useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAsync } from "./loginSlice";
+import { addAsync,loginAsync } from "./loginSlice";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from '../Loading.jsx/Loading'
@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState(false);
-  const [form, setForm] = useState({name:'',email:'',password:''});
+  const [form, setForm] = useState({name:'',email:'',password:'',avatar:'/profile_pic.png',avatarPreview:''});
+  const [loginForm,setLoginForm] = useState({email:'',password:''});
   const dispatch = useDispatch();
   const history = useNavigate();
 
@@ -26,7 +27,7 @@ export default function Login() {
   let name,value
  
 const handleInputs=(e)=>{ 
-  
+
 name = e.target.name;
 value = e.target.value;
 //we spread the operator because if not and just directly change we only get that property and value
@@ -34,10 +35,35 @@ setForm({...form,[name]:value})
 }
 
 
+const handleLoginInputs=(e)=>{ 
+
+  name = e.target.name;
+  value = e.target.value;
+  //we spread the operator because if not and just directly change we only get that property and value
+  setLoginForm({...loginForm,[name]:value})
+  }
+  
+
+const handleFileChange = (e) => {
+  console.log(e.target.files)
+  const file = e.target.files[0];
+  setForm((prevForm) => ({ ...prevForm, avatar: file }));
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+       //to handle async nature(safety)i didnt write setForm({...form,avatar:file})
+      setForm((prevForm) => ({ ...prevForm, avatar:file, avatarPreview: reader.result }));
+    };
+
+    //to add the file/image in avatar and avatarpreview
+    reader.readAsDataURL(file);
+  }
+};
   
   const registerUser = (e) => {
     e.preventDefault();
-      const {name,password}=form;  
+      const {name,password,email,avatar}=form;  
       if(name.length<=4)
       { 
         toast.error('Name should have more than 4 characters')
@@ -48,9 +74,46 @@ setForm({...form,[name]:value})
         toast.error('Password should be greater than 8 characters')
        return
       }
-   
-      dispatch(addAsync(form));
+      if(email.length===0)
+      { 
+        toast.error('Please enter email')
+        return
+      }
+      const myForm = new FormData();
+console.log(name,email,password,avatar)
+      myForm.set("name", name);
+      myForm.set("email", email);
+      myForm.set("password", password);
+      myForm.set("avatar", avatar);
+    
+      //to console myForm
+      // for (var key of myForm.entries()) {
+      //   console.log(key[0] + ', ' + key[1])
+      // }
+      dispatch(addAsync(myForm));
   };
+
+
+const loginUser = (e)=>{ 
+  e.preventDefault();
+  const {email,password} = loginForm
+
+      if(email.length===0)
+      { 
+        toast.error('Please enter email')
+        return
+      }
+      if(password.length===0)
+      { 
+        toast.error('Please enter password')
+        return
+      }
+     
+  dispatch(loginAsync(loginForm));
+}
+
+
+
 
 
   return (
@@ -64,7 +127,7 @@ setForm({...form,[name]:value})
     <>
       <section className="bg-white ">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-          <form className="w-full max-w-md">
+          <form className="w-full max-w-md" onSubmit={loginUser}>
             <div className="flex justify-center mx-auto">
               <h1 className="text-5xl pb-7 font-extrabold underline">
                 <span className=" text-gray-900 ">Envc</span>
@@ -92,7 +155,7 @@ setForm({...form,[name]:value})
                 </svg>
               </span>
               <input
-                type="email"
+                type="email" name="email" onChange={handleLoginInputs}
                 className="block w-full py-3 text-white bg-white border rounded-lg px-11 dark:bg-gray-900  dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Email address"
               />
@@ -115,7 +178,7 @@ setForm({...form,[name]:value})
                 </svg>
               </span>
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"} name="password" onChange={handleLoginInputs}
                 className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Password"
               />
@@ -174,7 +237,7 @@ setForm({...form,[name]:value})
       {" "}
       <section className="bg-white ">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-          <form onSubmit={registerUser} method="POST" className="w-full max-w-md">
+          <form method="post" encType="multipart/form-data"  onSubmit={registerUser}  className="w-full max-w-md">
             <div className="flex justify-center mx-auto">
               <h1 className="text-5xl pb-7 font-extrabold underline">
                 <span className=" text-gray-900 ">Envc</span>
@@ -203,7 +266,7 @@ setForm({...form,[name]:value})
                 type="text" name='name'
                 value={form.name}
                 onChange={handleInputs}
-                className="block w-full py-3 text-white bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-white dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full py-3 text-white bg-gray-900 rounded-lg px-11 dark:bg-gray-900 dark:text-white dark:border-gray-900 focus:border-gray-400 dark:focus:border-gray-900 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Username"
               />
             </div>
@@ -229,7 +292,7 @@ setForm({...form,[name]:value})
                 type="email" name='email'
                 value={form.email}
                 onChange={handleInputs}
-                className="block w-full py-3 text-white bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full py-3 text-white bg-gray-900 border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-900 focus:border-gray-900 dark:focus:border-gray-900 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 placeholder="Email address"
               />
             </div>
@@ -251,8 +314,13 @@ setForm({...form,[name]:value})
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                 />
               </svg>
+              <img
+                              src={form.avatarPreview}
+                              alt="avatar-preview"
+                              className="w-16 h-16 mx-3 rounded-full object-cover"
+                            />
               <h2 className="mx-3 text-gray-400">Profile Photo</h2>
-              <input id="dropzone-file" type="file" className="hidden" />
+              <input id="dropzone-file"  onChange={handleFileChange} name = 'avatar' type="file" accept="image" className="hidden" />
             </label>
 
             {/* Password input */}

@@ -4,23 +4,47 @@ import sendCookie from "../utils/sendCookie.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js"
 import crypto from "crypto"
+import cloudinary from 'cloudinary'
+import dataUri from "../utils/dataUri.js";
+
+
 
 
 //register user
-export const registerUser = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  let user = await User.findOne({ email });
-  if (user) return next(new ErrorHandler("User already exists", 400));
-  user = await User.create({
-    name,
-    email,
-    password,
-    avatar: {
-      public_id: "this is a sample id",
-      url: "this is public url id",
-    },
-  });
-  sendCookie(user, res, 201, "user created successfully");
+export const registerUser = async ( req, res, next) => {
+
+  try{
+    
+   const file = req.files
+  
+    const fileUri =  dataUri(file)
+    const myCloud = await cloudinary.v2.uploader.upload(fileUri.content, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+    
+    const { name, email, password } = req.body;
+    
+    let user = await User.findOne({ email });
+    if (user) return next(new ErrorHandler("User already exists", 400));
+  
+    user = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: myCloud.public_id,
+        url:myCloud.secure_url,
+      },
+    });
+    sendCookie(user, res, 201, "user created successfully");
+  }
+  catch(error)
+  { console.error("Error during user creation:", error);
+    next(error);
+  }
+ 
 };
 
 //loginuser
@@ -36,7 +60,7 @@ export const loginUser = async (req, res, next) => {
     if (!user) return next(new ErrorHandler("Invalid email or password", 401));
     const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched)
-      return new (next(new ErrorHandler("Invalid email or password", 401)));
+      return (next(new ErrorHandler("Invalid email or password", 401)));
 
     sendCookie(user, res, 200, `Hello ${user.name}`);
   } catch (error) {
@@ -143,6 +167,7 @@ sendCookie(user, res, 200,"password changed");
 
 
 //get user details(no password seen in postman as select false)
+//this helps if cookie in application and redux empty we use this instead of local or session storage
 export const userDetails = async(req,res,next)=>{ 
   try {
     const user = await User.findById(req.user._id).select("+password");

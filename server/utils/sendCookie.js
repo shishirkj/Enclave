@@ -7,8 +7,8 @@ const sendCookie = (user,res,statusCode,message)=>{
     res.status(statusCode).cookie("token",token,{ 
         httpOnly:true,
         maxAge:7*60*1000*24,
-        secure:true,
-        sameSite:"none"
+        secure: true, // Set to true if using HTTPS
+  sameSite: 'none',
     }).json({ 
         user,
         succes:true,

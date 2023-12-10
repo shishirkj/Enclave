@@ -108,6 +108,23 @@ const toggleMenu = () => {
                   />
                 </svg>
               </a>
+              {/* logout icon */}
+              <a className="flex items-center hover:text-gray-200" href="#">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 hover:text-gray-200"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
             </div>
           </div>
           {/* Responsive navbar */}
@@ -147,6 +164,24 @@ const toggleMenu = () => {
                   />
                 </svg>
               </div>
+              {/* logout icon */}
+              <a className="  xl:hidden flex items-center hover:text-gray-200" href="#">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 hover:text-gray-200"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+
           <a onClick = {toggleMenu} className="navbar-burger self-center mr-12 xl:hidden" href="#">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -163,6 +198,7 @@ const toggleMenu = () => {
               />
             </svg>
           </a>
+          
         </nav>
         {isMenuOpen && (
           <div className="  xl:hidden  bg-gray-900 text-white p-4">

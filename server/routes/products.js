@@ -13,7 +13,7 @@ router
     .put('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),updateProduct)
     .delete('/admin/product/:id',isAuthenticated,authorizeRoles("admin"),deleteProduct)
     //need to add isAuthenticated below
-    .get('/product/:id',getProductDetails)
+    .get('/product/:id',isAuthenticated,getProductDetails)
     .put('/review',isAuthenticated,createAndUpdateProductReview)
     .get('/reviews',isAuthenticated,getAllreviews)
     .delete('/reviews',isAuthenticated,authorizeRoles("admin"),deleteReviews)
