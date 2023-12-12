@@ -185,7 +185,7 @@ export const userDetails = async(req,res,next)=>{
 }
 
 
-//update user password after login
+
 export const updatePassword = async(req,res,next)=>{ 
   
 try {
@@ -216,10 +216,32 @@ export const updateProfile = async(req,res,next)=>{
     
     const {name,email} = req.body;
 
-    const newUserData = {
+    let newUserData = {
       name,email
     };
+   
+        if(req.body.avatar!='')
+        { 
+          const user =await User.findById(req.user.id)
+          const imageId = user.avatar.public_id;
+          await cloudinary.v2.uploader.destroy(imageId)
+          const file = req.files
   
+          const fileUri =  dataUri(file)
+          const myCloud = await cloudinary.v2.uploader.upload(fileUri.content, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale",
+          });
+      
+          newUserData.avatar={
+            public_id: myCloud.public_id,
+            url:myCloud.secure_url,
+          }
+        }
+
+
+
     //no need to do user.save() cauz findByIdUpdate does it
       const user= await User.findByIdAndUpdate(req.user._id,newUserData,{ 
         new: true,
@@ -227,8 +249,8 @@ export const updateProfile = async(req,res,next)=>{
         useFindAndModify: false,
       });
   
-      //profile pic later
-  
+     
+    
       res.status(200).json({ 
         success:true,
         message:"profile updated",

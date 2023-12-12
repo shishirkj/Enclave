@@ -13,22 +13,35 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserDetailAsync } from "./components/authentication/loginSlice";
 import Profile from "./components/profile/Profile";
-
+import UpdateProfile from "./components/profile/updateProfile";
+import Loading from "./components/Loading.jsx/Loading";
+import NoMatchFound from "./components/NoMatchFound";
 
 export default function App() {
-
+  const dispatch  = useDispatch()
+  
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
-
-
-const dispatch  = useDispatch()
+    const loading = useSelector(state=>state.login.status)
 
 
   useEffect(()=>{ 
-
+   
+    if(loading==='loading')
+    { 
+       return <Loading/>
+    }
+    else{
       dispatch(getUserDetailAsync())
+    }
+         
+    
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[])
+    
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+
+
+
 
 
   return (
@@ -39,8 +52,9 @@ const dispatch  = useDispatch()
       
     <Search/>
            {isAuthenticated?<NavBar/>:''}
-            <Routes>   
-              <Route path="/" element={<Home />} />
+            <Routes> 
+            <Route path="*" element={<NoMatchFound/>} />  
+             <Route path="/" element={<Home />} />
              <Route path="/product/:productId" element={<ProductDetails />}/>
               < Route path = "/products/product/:productId" element = {<ProductDetails/>}/>
               {/* on click to products */}
@@ -48,11 +62,20 @@ const dispatch  = useDispatch()
               <Route path="/products/:key" element = {<FilterProducts/>} />  
               <Route path = '/category' element = {<Category/>}/>  
               <Route path= '/login'  element = {<Login/>}/>  
-              <Route path= '/profile'  element = {<Profile/>}/>  
+              {isAuthenticated ? (
+            <>
+              <Route path='/profile' element={<Profile />} />
+              <Route path="/updateProfile" element={<UpdateProfile />} />
+            </>
+          ) : (
+            <Route path= '/login'  element = {<Login/>}/>
+          )}
             </Routes>
-            {isAuthenticated?<Footer/>:''}         
+            {isAuthenticated?<Footer/>:''}  
+     
       </div>
     </Router>
+ 
     
   );
 }

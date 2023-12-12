@@ -25,10 +25,14 @@ const selectedCategory=''
       
       toast.error(error)
       }
+     
       dispatch(fetchAsync(key,selectedCategory));
+     
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, error]);
+
+  
 
   const options = {
     edit: false,
@@ -60,7 +64,7 @@ const selectedCategory=''
               Sale
             </span>
             <div className="mt-4 px-5 pb-5">       
-                <h5 className="text-xl font-semibold tracking-tight text-slate-900">
+                <h5 className="text-xl font-semibold  font-fijila tracking-tight text-slate-900">
                   {product.name}
                 </h5>
               <div className="mt-2.5 mb-5 flex items-center">

@@ -41,3 +41,20 @@ export function register(form) {
     headers:{'Content-Type':'application/json'},
     withCredentials: true})
   }
+
+
+
+
+  //updateProfile api
+export  function  updateProfile(form) {
+
+  const config = {
+    headers: {
+      "Content-type": "multipart/form-data",
+    },
+    withCredentials: true,
+  };
+
+  return axios.put('http://localhost:5000/api/v1/me/update', form, config);
+}
+  

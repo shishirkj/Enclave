@@ -5,6 +5,7 @@ import { toggleSearchIcon } from "../../features/products/productSlice";
 import { logoutAsync } from "../authentication/loginSlice";
 import { useNavigate } from "react-router-dom";
 
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default function NavBar() {
@@ -27,10 +28,16 @@ const toggleMenu = () => {
 
 const logout = () => {
   dispatch(logoutAsync());
+  
   const path='/login'
     history(path);
+    
 };
 
+const profile = ()=>{ 
+  const path = '/profile'
+  history(path)
+}
 
 
 
@@ -41,26 +48,26 @@ const logout = () => {
       <section className="relative mx-auto">
         {/* navbar */}
         <nav className=" flex  justify-between bg-gray-900 text-white w-screen">
-          <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-            <Link to = '/' className="text-3xl font-bold font-heading" >
+          <div className="px-5 xl:px-12 py-6 flex w-full items-center ">
+            <Link to = '/' className="text-3xl font-bold font-heading font-fijila" >
               Enclave
             </Link>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
-                <Link to = "/" className="hover:text-gray-200">
+                <Link to = "/" className="hover:text-gray-200 font-fijila">
                   Home
                 </Link>
               </li>
               <li>
-              <Link to = '/category' className="hover:text-gray-200">Category</Link>
+              <Link to = '/category' className="hover:text-gray-200 font-fijila">Category</Link>
               </li>
               <li>
-                <Link to = '/products' className="hover:text-gray-200" >
+                <Link to = '/products' className="hover:text-gray-200 font-fijila" >
                   Products
                 </Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
+                <a className="hover:text-gray-200 font-fijila" href="#">
                   Contact Us
                 </a>
               </li>
@@ -106,7 +113,7 @@ const logout = () => {
                 </span>
               </a>
               {/* Profile  */}
-              <a onClick = {()=>{history('/profile')}} className="flex items-center hover:text-gray-200" >
+              <a onClick = {profile} className="flex items-center hover:text-gray-200" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 hover:text-gray-200"
@@ -180,8 +187,9 @@ const logout = () => {
                   />
                 </svg>
               </div>
+              
               {/* profile logo */}
-              <a onClick = {()=>{history('/profile')}} className=" xl:hidden flex items-center hover:text-gray-200" href="#">
+              <a onClick = {()=>{history('/profile')}} className=" xl:hidden flex items-center hover:text-gray-200" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 hover:text-gray-200"
@@ -215,6 +223,8 @@ const logout = () => {
             </svg>
           </a>
 
+
+        {/* search icon */}
           <a onClick = {toggleMenu} className="navbar-burger self-center mr-12 xl:hidden" href="#">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -237,20 +247,20 @@ const logout = () => {
           <div className="  xl:hidden  bg-gray-900 text-white p-4">
             <ul className="space-y-4">
               <li>
-                <Link to="/" className="hover:text-gray-200">
+                <Link to="/" className="hover:text-gray-200 font-fijila">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to = '/category' className="hover:text-gray-200">Category</Link>
+                <Link to = '/category' className="hover:text-gray-200 font-fijila">Category</Link>
               </li>
               <li>
-              <Link to = '/products' className="hover:text-gray-200">
+              <Link to = '/products' className="hover:text-gray-200 font-fijila">
                   Products
                 </Link>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
+                <a className="hover:text-gray-200 font-fijila" href="#">
                   Contact Us
                 </a>
               </li>
@@ -259,7 +269,9 @@ const logout = () => {
         )}
       </section>
     
-   
-  
+
 </>  )
+
+
+
 }

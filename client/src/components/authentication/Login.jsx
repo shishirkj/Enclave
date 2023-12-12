@@ -109,7 +109,10 @@ const loginUser = (e)=>{
         return
       }
      
+
   dispatch(loginAsync(loginForm));
+
+
 }
 
 
@@ -239,7 +242,7 @@ const loginUser = (e)=>{
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
           <form method="post" encType="multipart/form-data"  onSubmit={registerUser}  className="w-full max-w-md">
             <div className="flex justify-center mx-auto">
-              <h1 className="text-5xl pb-7 font-extrabold underline">
+              <h1 className="text-5xl pb-7 font-extrabold font-fijila ">
                 <span className=" text-gray-900 ">Envc</span>
                 <span className="text-blue-600">lave</span>
               </h1>
@@ -403,8 +406,6 @@ const loginUser = (e)=>{
         </>
       }
    
-
-
 
 
 

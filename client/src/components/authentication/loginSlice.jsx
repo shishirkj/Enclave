@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { register,login, getUserDetail,logout} from './loginApi';
+import { register,login, getUserDetail,logout,updateProfile} from './loginApi';
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,6 +14,7 @@ const initialState = {
 
 
 
+//registerAsync
 export const addAsync = createAsyncThunk(
   'register/User',
   async (form) => {   
@@ -51,6 +52,21 @@ export const logoutAsync = createAsyncThunk(
       return response.data;
   }
 );
+
+
+
+//updateProfile Async
+export const updateProfileAsync = createAsyncThunk(
+  'updateProfile/User',
+  async (form) => {   
+      const response = await updateProfile(form)
+      return response.data;
+
+  }
+);
+
+
+
 
 
 
@@ -149,7 +165,27 @@ export const loginSlice = createSlice({
         state.status = 'idle';   
         state.error=action.error.message;
         state.isAuthenticated= false;
-      });
+      })
+
+        //updateProfile reducers
+    .addCase(updateProfileAsync.pending, (state) => {
+      state.status = 'loading';
+      state.isAuthenticated=false;
+      state.error = ''
+    })
+  .addCase(updateProfileAsync.fulfilled, (state, action) => {
+      state.status = 'idle'; 
+      state.form=action.payload;
+      state.isAuthenticated= true;
+      state.error=''
+    })
+
+  .addCase(updateProfileAsync.rejected, (state, action) => {
+      state.status = 'idle';
+     state.error = action.error.message
+      state.isAuthenticated = false
+    });
+
     
       
   },
