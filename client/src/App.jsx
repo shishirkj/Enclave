@@ -12,25 +12,23 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserDetailAsync } from "./components/authentication/loginSlice";
-
+import Profile from "./components/profile/Profile";
 
 
 export default function App() {
 
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
-  const error = useSelector(state=>state.login.error)
+
 
 const dispatch  = useDispatch()
 
 
   useEffect(()=>{ 
- if(error)
- {
-   console.warn(error)
- }
+
       dispatch(getUserDetailAsync())
 
-  },[dispatch,error])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
 
   return (
@@ -50,9 +48,11 @@ const dispatch  = useDispatch()
               <Route path="/products/:key" element = {<FilterProducts/>} />  
               <Route path = '/category' element = {<Category/>}/>  
               <Route path= '/login'  element = {<Login/>}/>  
+              <Route path= '/profile'  element = {<Profile/>}/>  
             </Routes>
             {isAuthenticated?<Footer/>:''}         
       </div>
     </Router>
+    
   );
 }

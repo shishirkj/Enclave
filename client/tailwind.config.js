@@ -8,12 +8,12 @@ export default {
     fontFamily: {
       'sans': [],
       'roboto': ['Roboto', 'sans-serif'],
+      'fijila': ['Fijila', 'sans-serif'],
     },
     extend: {},
-    container:{ 
-      center:true
-    }
+    container: { 
+      center: true
+    },
   },
   plugins: [],
 }
-

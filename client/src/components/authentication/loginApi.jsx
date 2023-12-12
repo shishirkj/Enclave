@@ -27,7 +27,8 @@ export function register(form) {
 
 
   //get user details
-  export function getUserDetail() {    
+  export function getUserDetail() {   
+     
     return  axios.get(' http://localhost:5000/api/v1/me',{
     headers:{'Content-Type':'application/json'},
     withCredentials: true})

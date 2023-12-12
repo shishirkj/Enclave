@@ -141,8 +141,8 @@ export const loginSlice = createSlice({
       })
     .addCase(logoutAsync.fulfilled, (state) => {
         state.status = 'idle';   
-        state.form=null;
-        state.isAuthenticated= true;
+        state.form='';
+        state.isAuthenticated= false;
         state.error=''
       })
       .addCase(logoutAsync.rejected, (state, action) => {

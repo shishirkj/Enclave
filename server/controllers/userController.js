@@ -170,6 +170,7 @@ sendCookie(user, res, 200,"password changed");
 //this helps if cookie in application and redux empty we use this instead of local or session storage
 export const userDetails = async(req,res,next)=>{ 
   try {
+    
     const user = await User.findById(req.user._id).select("+password");
 
     res.status(200).json({
