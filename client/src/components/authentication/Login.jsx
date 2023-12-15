@@ -1,11 +1,12 @@
 
-import {useState } from "react";
+import {useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAsync,loginAsync } from "./loginSlice";
+import { addAsync,forgotPasswordAsync,loginAsync } from "./loginSlice";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from '../Loading.jsx/Loading'
 import { useNavigate } from "react-router-dom";
+import { passwordIsSent } from "./loginSlice";
 
 
 export default function Login() {
@@ -18,6 +19,7 @@ export default function Login() {
 
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
   const loading = useSelector(state=>state.login.status)
+  const {error,passwordSent} = useSelector(state=>state.login)
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -108,13 +110,46 @@ const loginUser = (e)=>{
         toast.error('Please enter password')
         return
       }
-     
-
   dispatch(loginAsync(loginForm));
-
-
+  
 }
 
+
+//FOR FORGOT PASSWORD ERROR
+useEffect(()=>{
+  if(error)
+  { 
+
+    if(error==='Request failed with status code 404')
+    
+    toast.error('User not Found');
+
+  }
+  
+  if(passwordSent)
+  {
+  dispatch(passwordIsSent())
+toast.success("Password Link sent successfully")
+  }
+},[error,passwordSent,dispatch])
+
+
+const forgotPassword=()=>{ 
+const {email}= loginForm;
+
+if(email.length===0)
+{ 
+  toast.error('Please enter email')
+  return;
+}
+
+
+const myForm = new FormData();
+myForm.set("email", email);
+
+dispatch(forgotPasswordAsync(myForm))
+setLoginForm({ ...loginForm, email: '' });
+}
 
 
 
@@ -132,12 +167,12 @@ const loginUser = (e)=>{
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
           <form className="w-full max-w-md" onSubmit={loginUser}>
             <div className="flex justify-center mx-auto">
-              <h1 className="text-5xl pb-7 font-extrabold underline">
+              <h1 className="text-5xl pb-7 font-extrabold underline font-fijila">
                 <span className=" text-gray-900 ">Envc</span>
                 <span className="text-blue-600">lave</span>
               </h1>
             </div>
-            <h1 className="mt-3 text-2xl font-semibold text-gray-800 capitalize sm:text-3xl ">
+            <h1 className="mt-3 text-2xl font-semibold font-fijila text-gray-800 capitalize sm:text-3xl ">
               sign In
             </h1>
             <div className="relative flex items-center mt-8">
@@ -226,7 +261,7 @@ const loginUser = (e)=>{
                 </a>
               </div>
               <div className="mt-6 text-center ">
-                <a className="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer">
+                <a onClick={forgotPassword} className="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer">
                   Forgot Passsword ?
                 </a>
               </div>
@@ -242,7 +277,7 @@ const loginUser = (e)=>{
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
           <form method="post" encType="multipart/form-data"  onSubmit={registerUser}  className="w-full max-w-md">
             <div className="flex justify-center mx-auto">
-              <h1 className="text-5xl pb-7 font-extrabold font-fijila ">
+              <h1 className="text-5xl pb-7 font-extrabold underline font-fijila ">
                 <span className=" text-gray-900 ">Envc</span>
                 <span className="text-blue-600">lave</span>
               </h1>

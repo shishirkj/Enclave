@@ -68,7 +68,6 @@ const resetToken = crypto.randomBytes(20).toString("hex");
     .update(resetToken)
     .digest("hex");
 
-
     this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
     return resetToken;

@@ -72,3 +72,32 @@ export  function  updatePassword(form) {
   return axios.put('http://localhost:5000/api/v1/me/password', form, config);
 }
   
+
+
+//forgot password api
+export function forgotPassword(form)
+{ 
+  const config = { 
+    headers:{ 
+      "Content-type":"application/json",
+    },
+    withCredentials: true,
+  };
+
+  return axios.post('http://localhost:5000/api/v1/password/forgot',form,config)
+}
+
+
+
+//reset Password api
+export  function  resetPassword(token,form) {
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+    withCredentials: true,
+  };
+  
+  return axios.put(`http://localhost:5000/api/v1/password/reset/${token}`, form, config);
+}

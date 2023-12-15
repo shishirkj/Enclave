@@ -15,10 +15,10 @@ import { getUserDetailAsync } from "./components/authentication/loginSlice";
 import Profile from "./components/profile/Profile";
 import UpdateProfile from "./components/profile/updateProfile";
 import NoMatchFound from "./components/Route/NoMatchFound";
-import UpdatePassword from "./components/profile/updatePassword";
- import ProtectedRoute from "./components/Route/ProtectedRoute";
+import UpdatePassword from "./components/profile/UpdatePassword";
+import ProtectedRoute from "./components/Route/ProtectedRoute";
 import Loading from "./components/Loading.jsx/Loading";
-
+import ResetPassword from "./components/authentication/ResetPassword";
 
 export default function App() {
   const dispatch  = useDispatch()
@@ -54,17 +54,16 @@ export default function App() {
               < Route path = "/products/product/:productId" element = {<ProductDetails/>}/>
               {/* on click to products */}
               <Route path="/products" element = {<FilterProducts/>} />  
+              {/* key(api) => productId */}
               <Route path="/products/:key" element = {<FilterProducts/>} />  
               <Route path = '/category' element = {<Category/>}/>  
               <Route path= '/login'  element = {<Login/>}/> 
-             {/* <Route path= '/profile'  element = {<Profile/>}/> */}
-            
               <Route path='/profile' element={<ProtectedRoute Component={Profile}/>}/>
               <Route path='/updateProfile' element={<ProtectedRoute Component={UpdateProfile}/>}/>
               <Route path='/updatePassword' element={<ProtectedRoute Component={UpdatePassword}/>}/>
+              <Route path = '/resetPassword/:token' element = {<ResetPassword/>}/>
               <Route path="/loading" element={ <Loading/>} /> 
-          
-          <Route path= '*'  element = {<NoMatchFound />}/>
+              <Route path= '*'  element = {<NoMatchFound />}/>
             </Routes>
             {isAuthenticated?<Footer/>:''}  
      

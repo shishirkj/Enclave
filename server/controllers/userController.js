@@ -97,7 +97,7 @@ export const forgotPassword = async (req, res,next) => {
     
     await user.save({ validateBeforeSave: false });
 
-    const url = `${req.protocol}://${req.get("host")}/api/v1/${resetToken}`
+    const url = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`
     const message = `Your password reset token is :- \n\n ${url} \n\nIf you have not requested this email then, please ignore it.`;
 
     try {
@@ -110,7 +110,8 @@ export const forgotPassword = async (req, res,next) => {
 
         res.status(200).json({
           success:true,
-          message:`email sent to ${user.email}` 
+          message:`email sent to ${user.email}` ,
+          resetToken,
 
         })
 
@@ -135,6 +136,8 @@ next(error)
 export const resetPassword = async (req, res, next) => {
  
 try {
+
+  //this is to compare in useSchema and find the user
   const resetPasswordToken = crypto
   .createHash("sha256")
   .update(req.params.token)
@@ -147,9 +150,11 @@ const user = await User.findOne({
 
 if (!user) return next(new ErrorHandler("Reset Password Token is invalid or has been expired", 400));
 
-if (req.body.password !== req.body.confirmPassword) return next(new ErrorHandler("Password does not match", 400));
 
-user.password = req.body.password;
+if (req.body.newPassword !== req.body.confirmPassword) return next(new ErrorHandler("Password does not match", 400));
+
+
+user.password = req.body.newPassword;
 
 user.resetPasswordToken = undefined;
 

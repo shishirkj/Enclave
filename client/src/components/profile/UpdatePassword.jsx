@@ -14,6 +14,8 @@ import { resetIsUpdated } from "../authentication/loginSlice";
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false);
+  const [checkEye1, setCheckEye1] = useState(false);
+  const [checkEye2, setCheckEye2] = useState(false);
   const [form, setForm] = useState({password:'',newPassword:'',confirmPassword:''});  
   
   
@@ -21,6 +23,15 @@ import { resetIsUpdated } from "../authentication/loginSlice";
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const togglePasswordVisibility1 = () => {
+    setCheckEye1(!checkEye1);
+  };
+
+  const togglePasswordVisibility2 = () => {
+    setCheckEye2(!checkEye2);
+  };
+
 
 let name,value
 
@@ -44,7 +55,7 @@ let name,value
  
        if(isUpdated)
        {
-         dispatch(resetIsUpdated())
+      dispatch(resetIsUpdated())
       toast.success('password updated')
       navigate('/profile')
        }
@@ -99,7 +110,7 @@ let name,value
       {/* FORM */}
       <form onSubmit={confirmPassword} className="w-full max-w-md" >
         <div className="flex justify-center mx-auto">
-          <h1 className="text-5xl pb-7 font-extrabold underline">
+          <h1 className="text-5xl pb-7 font-extrabold font-fijila">
             <span className=" text-gray-900 ">Envc</span>
             <span className="text-blue-600">lave</span>
           </h1>
@@ -176,7 +187,7 @@ let name,value
             </svg>
           </span>
           <input
-            type={showPassword ? "text" : "password"}value={form.newPassword} name="newPassword" onChange={handleInputs} 
+            type={checkEye1 ? "text" : "password"}value={form.newPassword} name="newPassword" onChange={handleInputs} 
             className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="New Password"
           />
@@ -188,10 +199,10 @@ let name,value
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2}
-              onClick={togglePasswordVisibility}
+              onClick={togglePasswordVisibility1}
               style={{ cursor: "pointer" }}
             >
-              {showPassword ? (
+              {checkEye1 ? (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -228,7 +239,7 @@ let name,value
             </svg>
           </span>
           <input
-            type={showPassword ? "text" : "password"}value={form.confirmPassword} name="confirmPassword" onChange={handleInputs}
+            type={checkEye2 ? "text" : "password"}value={form.confirmPassword} name="confirmPassword" onChange={handleInputs}
             className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="Confirm Password"
           />
@@ -240,10 +251,10 @@ let name,value
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2}
-              onClick={togglePasswordVisibility}
+              onClick={togglePasswordVisibility2}
               style={{ cursor: "pointer" }}
             >
-              {showPassword ? (
+              {checkEye2 ? (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
