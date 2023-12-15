@@ -69,7 +69,7 @@ const handleFileChange = (e) => {
         toast.error('Name should have more than 4 characters')
         
       }
-      if(password.length<8)
+      if(password.length<=8)
       { 
         toast.error('Password should be greater than 8 characters')
        return

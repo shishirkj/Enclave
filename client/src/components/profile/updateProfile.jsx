@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function UpdateProfile() {
 
     const dispatch = useDispatch() 
-    const history = useNavigate()
+    const navigate = useNavigate()
     
     const loading = useSelector(state=>state.login.status)
     const error = useSelector(state=>state.login.error)
@@ -80,7 +80,7 @@ export default function UpdateProfile() {
       else
       {
         dispatch(updateProfileAsync(myForm));
-        history('/profile')
+        navigate('/profile')
       }
      
   };

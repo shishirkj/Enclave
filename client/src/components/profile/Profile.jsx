@@ -7,9 +7,8 @@ export default function Profile(){
 
 
   const history = useNavigate()
-const {name,email,createdAt} = useSelector(state=>state.login.form.user)
-const {avatar} = useSelector(state=>state.login.form.user)
-// const {status} = useSelector(state=>state.login)
+const {user} = useSelector(state=>state.login.form)
+
 
 
 const formatCreatedAt = (createdAt) => {
@@ -19,16 +18,20 @@ const formatCreatedAt = (createdAt) => {
 };
 
 const userData = {
-  fullName: name,
-  email: email,
-  joinedOn: formatCreatedAt(createdAt),
-  image:avatar.url
+  fullName: user?.name,
+  email: user?.email,
+  joinedOn: formatCreatedAt(user?.createdAt),
+  image:user?.avatar.url
 };
 
 
+
+
     return(
-      
-    userData.image && <div className="bg-amber-100 min-h-screen flex items-center justify-center">
+
+        <>
+
+  <div className="bg-amber-100 min-h-screen flex items-center justify-center">
        
       <div className="container flex-col space-y-20 p-8">
         <h1 className="text-5xl font-extrabold  font-fijila text-center mb-16 md:text-left md:text-7xl">
@@ -51,7 +54,7 @@ const userData = {
         </div>
     
         <div className="flex justify-between">
-          <button className="bg-gray-900 my-14 md:w-[14rem] md:h-[3rem] text-white px-4 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
+          <button onClick={()=>history('/updatePassword')} className="bg-gray-900 my-14 md:w-[14rem] md:h-[3rem] text-white px-4 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
             Change Password
           </button>
           <button className="bg-gray-900 my-14 md:w-[14rem] text-white px-4 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
@@ -60,6 +63,10 @@ const userData = {
         </div>
       </div>
     </div>
+
+
+    
+    </>
     
     );
    }

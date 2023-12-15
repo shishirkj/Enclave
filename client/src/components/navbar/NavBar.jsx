@@ -76,20 +76,20 @@ const profile = ()=>{
             {/* search bar */}
             <div className="hidden xl:flex  space-x-5 items-center">
               <div onClick={toggleSearch} className="hover:text-gray-200" >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+              <svg
+  xmlns="http://www.w3.org/2000/svg"
+  height={20}
+  width={20}
+  viewBox="0 0 512 512"
+>
+  <path
+    fill="#ffffff"
+    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+  />
+</svg>
+
+
+
               </div>
               {/* cart icon */}
               <a className="flex items-center hover:text-gray-200" href="#">
@@ -132,25 +132,23 @@ const profile = ()=>{
               
               {/* logout icon */}
               <a  onClick={logout} className="flex items-center hover:text-gray-200"  >      
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 hover:text-gray-200"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+              <svg
+  xmlns="http://www.w3.org/2000/svg"
+  height={16}
+  width={16}
+  viewBox="0 0 512 512"
+>
+  <path
+    fill="#ffffff"
+    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+  />
+</svg>
+
           </a>
             </div>
           </div>
           {/* Responsive navbar */}
-          <a className="xl:hidden flex mr-6 items-center" href="#">
+          <a className="xl:hidden flex mr-6 items-center" >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 hover:text-gray-200"
@@ -172,20 +170,18 @@ const profile = ()=>{
           </a>
           {/* search logo */}
           <div onClick={toggleSearch} className=" cursor-pointer xl:hidden flex mr-6 items-center" >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+          <svg
+  xmlns="http://www.w3.org/2000/svg"
+  height={20}
+  width={20}
+  viewBox="0 0 512 512"
+>
+  <path
+    fill="#ffffff"
+    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+  />
+</svg>
+
               </div>
               
               {/* profile logo */}
@@ -206,26 +202,24 @@ const profile = ()=>{
                 </svg>
               </a>
               {/* logout icon */}
-              <a  onClick={logout} className="  xl:hidden ml-3 flex items-center hover:text-gray-200" href="#">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 hover:text-gray-200"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+              <a  onClick={logout} className="  xl:hidden ml-3 flex items-center hover:text-gray-200" >
+              <svg
+  xmlns="http://www.w3.org/2000/svg"
+  height={16}
+  width={16}
+  viewBox="0 0 512 512"
+>
+  <path
+    fill="#ffffff"
+    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+  />
+</svg>
+
           </a>
 
 
         {/* search icon */}
-          <a onClick = {toggleMenu} className="navbar-burger self-center mr-12 xl:hidden" href="#">
+          <a onClick = {toggleMenu}  className="navbar-burger self-center  ml-4 mr-12 xl:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 hover:text-gray-200"

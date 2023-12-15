@@ -47,7 +47,7 @@ export const registerUser = async ( req, res, next) => {
  
 };
 
-//loginuser
+//login user
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -186,20 +186,25 @@ export const userDetails = async(req,res,next)=>{
 
 
 
+
+//change password(update password)
 export const updatePassword = async(req,res,next)=>{ 
   
 try {
+  
   const user = await User.findById(req.user._id).select("+password")
-
+ 
   const isMatched = await bcrypt.compare(req.body.password, user.password);
   if (!isMatched)return next(new ErrorHandler("Old password is incorrect", 401));
   
   if(req.body.newPassword!=req.body.confirmPassword)  return next(new ErrorHandler("password does not match", 400));
-  
+ 
   user.password = req.body.newPassword;
-
+  
+  const validationError = user.validateSync();
+  
   await user.save();
-
+ 
   sendCookie(user, res, 200, "password updated");
 
 } catch (error) {

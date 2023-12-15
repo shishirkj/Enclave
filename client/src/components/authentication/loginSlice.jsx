@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { register,login, getUserDetail,logout,updateProfile} from './loginApi';
+import { register,login, getUserDetail,logout,updateProfile,updatePassword} from './loginApi';
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,7 +8,8 @@ const initialState = {
   form: [],
   status: 'idle',
   error:'',
-  isAuthenticated:false
+  isAuthenticated:false,
+ isUpdated:false
 };
 
 
@@ -26,6 +27,7 @@ export const addAsync = createAsyncThunk(
 );
 
 
+//loginAsync
 export const loginAsync = createAsyncThunk(
   'login/User',
   async (loginForm) => {   
@@ -36,6 +38,8 @@ export const loginAsync = createAsyncThunk(
 );
 
 
+// userDetailAsync
+//to handle on reload dataso in redux state isnt empty(in App.jsx)
 export const getUserDetailAsync = createAsyncThunk(
   'getUserDtail/User',
   async () => {   
@@ -44,6 +48,9 @@ export const getUserDetailAsync = createAsyncThunk(
   }
 );
 
+
+
+//logutAsync
   //we use logout api to remove cookies from application
 export const logoutAsync = createAsyncThunk(
   'logout/User',
@@ -54,18 +61,31 @@ export const logoutAsync = createAsyncThunk(
 );
 
 
-
-//updateProfile Async
+//updateProfileAsync
 export const updateProfileAsync = createAsyncThunk(
   'updateProfile/User',
   async (form) => {   
+
       const response = await updateProfile(form)
       return response.data;
+  
+      
 
   }
 );
 
 
+
+//updatePasswordAsync
+
+export const updatePasswordAsync = createAsyncThunk(
+  'updatePassword/User',
+  async (form) => {   
+      const response = await updatePassword(form)
+      return response.data;
+
+  }
+);
 
 
 
@@ -77,7 +97,12 @@ export const loginSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
- 
+    // ... existing reducers ...
+
+    // Add a reducer to handle resetting isUpdated
+    resetIsUpdated: (state) => {
+      state.isUpdated = false;
+    },
   },
   
   extraReducers: (builder) => {
@@ -131,8 +156,8 @@ export const loginSlice = createSlice({
 
       //getUserDetails reducers
       .addCase(getUserDetailAsync.pending, (state) => {
+        state.form= ''
         state.status = 'loading';
-        state.isAuthenticated=false;
         state.error=''
       })
     .addCase(getUserDetailAsync.fulfilled, (state, action) => {
@@ -162,15 +187,17 @@ export const loginSlice = createSlice({
         state.error=''
       })
       .addCase(logoutAsync.rejected, (state, action) => {
-        state.status = 'idle';   
+        state.status = 'idle';  
+       
         state.error=action.error.message;
+        
         state.isAuthenticated= false;
       })
 
         //updateProfile reducers
     .addCase(updateProfileAsync.pending, (state) => {
       state.status = 'loading';
-      state.isAuthenticated=false;
+      state.isAuthenticated=true;
       state.error = ''
     })
   .addCase(updateProfileAsync.fulfilled, (state, action) => {
@@ -179,12 +206,35 @@ export const loginSlice = createSlice({
       state.isAuthenticated= true;
       state.error=''
     })
-
   .addCase(updateProfileAsync.rejected, (state, action) => {
       state.status = 'idle';
      state.error = action.error.message
-      state.isAuthenticated = false
-    });
+      state.isAuthenticated =false
+    })
+
+
+       // update password
+  .addCase(updatePasswordAsync.pending, (state) => {
+      state.status = 'loading';
+      state.isAuthenticated=true;
+      state.error = '';
+      state.isUpdated=false
+    })
+  .addCase(updatePasswordAsync.fulfilled, (state, action) => {
+      state.status = 'idle'; 
+      state.form=action.payload;
+      state.isAuthenticated= true;
+      state.error='';
+      state.isUpdated=true;
+     
+    })
+  .addCase(updatePasswordAsync.rejected, (state, action) => {
+      state.status = 'idle';
+   state.isUpdated='false'
+      state.form = '';
+      state.error = action.error.message;
+    })
+
 
     
       
@@ -206,5 +256,5 @@ theme="colored"
 
 
 
-
+export const { resetIsUpdated } = loginSlice.actions;
 export default loginSlice.reducer;

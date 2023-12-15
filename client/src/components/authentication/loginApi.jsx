@@ -58,3 +58,17 @@ export  function  updateProfile(form) {
   return axios.put('http://localhost:5000/api/v1/me/update', form, config);
 }
   
+
+//updatePassword api
+export  function  updatePassword(form) {
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+    withCredentials: true,
+  };
+  
+  return axios.put('http://localhost:5000/api/v1/me/password', form, config);
+}
+  

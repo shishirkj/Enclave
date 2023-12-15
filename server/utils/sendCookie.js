@@ -8,7 +8,7 @@ const sendCookie = (user,res,statusCode,message)=>{
         httpOnly:true,
         maxAge:7*60*1000*24,
         secure: true, // Set to true if using HTTPS
-  sameSite: 'none',
+        sameSite: 'none',
     }).json({ 
         user,
         succes:true,
