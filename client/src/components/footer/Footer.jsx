@@ -3,8 +3,8 @@ import './Footer.css'
 
 export default function Footer() {
   return (
-    <div>
-    <footer className="relative py-20 flex flex-col items-center bg-cyan-900 overflow-hidden md:py-40">
+    <div className>
+    <footer className="relative py-20  flex flex-col items-center  bg-cyan-900 overflow-hidden md:py-40">
       <div className="relative z-[1] container m-auto px-6 md:px-12">
         <div className="m-auto md:w-10/12 lg:w-8/12 xl:w-6/12">
           <div className="flex flex-wrap items-center justify-between md:flex-nowrap">
@@ -210,57 +210,7 @@ export default function Footer() {
         className="absolute inset-0 w-full h-full bg-[#020314] opacity-80"
       />
     </footer>
-    {/*
-  
-      Add to your stylesheet
-  
-  .bg-layers {
-      -webkit-animation: filter-animation 4s infinite;
-      animation: filter-animation 4s infinite;
-  }
-  
-  .bg-scale {
-      -webkit-animation: filter-animation 8s infinite;
-      animation: filter-scale 8s infinite;
-  }
     
-  @-webkit-keyframes filter-animation {
-      0% {
-  -webkit-filter: hue-rotate(0deg);
-      }
-      50% {
-  -webkit-filter: hue-rotate(45deg);
-      }
-      
-      100% {
-  -webkit-filter: hue-rotate(0deg);
-      }
-  }
-    
-  @keyframes filter-animation {
-      0% {
-  filter: hue-rotate(0deg);
-      }
-      50% {
-  filter: hue-rotate(45deg);
-      }
-      100% {
-  filter: hue-rotate(0deg);
-      }
-  }
-  
-  @keyframes filter-scale {
-      0% {
-  transform:scale(1);
-      }
-      50% {
-  transform:scale(1.4);
-      }
-      100% {
-    transform:scale(.8);
-      }
-  }
-  */}
 
   </div>
   )

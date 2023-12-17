@@ -92,7 +92,7 @@ const profile = ()=>{
 
               </div>
               {/* cart icon */}
-              <a className="flex items-center hover:text-gray-200" href="#">
+              <Link to={'/cart'} className="flex items-center hover:text-gray-200" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -111,7 +111,7 @@ const profile = ()=>{
                   <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                 </span>
-              </a>
+              </Link>
               {/* Profile  */}
               <a onClick = {profile} className="flex items-center hover:text-gray-200" >
                 <svg
@@ -147,8 +147,11 @@ const profile = ()=>{
           </a>
             </div>
           </div>
+          
           {/* Responsive navbar */}
-          <a className="xl:hidden flex mr-6 items-center" >
+          
+          {/* cart icon */}
+          <Link to={'/cart'} className="xl:hidden flex mr-6 items-center" >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 hover:text-gray-200"
@@ -167,7 +170,7 @@ const profile = ()=>{
               <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
             </span>
-          </a>
+          </Link>
           {/* search logo */}
           <div onClick={toggleSearch} className=" cursor-pointer xl:hidden flex mr-6 items-center" >
           <svg

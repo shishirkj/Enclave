@@ -2,11 +2,14 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { fetchAsync } from "./productDetailsSlice";
 import { useParams } from "react-router-dom"; // Import the useParams hook
 import Loading from "../../components/Loading.jsx/Loading";
 import ReactStar from "react-rating-stars-component";
+import { addAsync } from "../cart/cartSlice";
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductDetails() {
   const dispatch = useDispatch();
@@ -16,12 +19,49 @@ export default function ProductDetails() {
     (state) => state.productDetail.productDetails
   );
   const loading = useSelector((state) => state.productDetail.status);
+  const {Stock} = useSelector((state)=>state.productDetail.productDetails)
+  const {error} = useSelector((state)=>state.productDetail)
+
   const { images } = productDetails;
 
+  const [quantity,setQuantity] = useState(1);
+
+
+
+  const incrementQuantity = ()=>{
+    if(quantity>=Stock)
+    { 
+      
+      return;
+    }
+    let qty = quantity+1;
+    setQuantity(qty)
+  }
+
+  const decrementQuantity=()=>{ 
+    if(quantity<=1)
+    return   
+    let qty = quantity-1;
+    setQuantity(qty)
+  }
+
+  const addToCart = ()=>{ 
+    //must send as single object in parameter
+    dispatch(addAsync({productId,quantity}))
+    toast.success('Added to Cart')
+  }
 
   useEffect(() => {
     dispatch(fetchAsync(productId));
   }, [dispatch, productId]);
+
+  useEffect(()=>{ 
+    if(error)
+    { 
+      toast.error(error)
+    }
+  },[error])
+
 
   const settings = {
     dots: true,
@@ -88,19 +128,19 @@ export default function ProductDetails() {
               {`₹${productDetails.price}`}
             </h1>
             <div className="flex space-x-2">
-              <button className="bg-gray-900 text-white px-2 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
+              <button onClick={decrementQuantity} className="bg-gray-900 text-white px-2 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
                 -
               </button>
               <input
-                value="1"
+                value={quantity} readOnly
                 className="border border-gray-300 text-gray-900 font-bold py-1 px-2 md:px-3 h-8 md:h-10 w-8 md:w-11 rounded-md"
               />
-              <button className="bg-gray-900 text-white px-2 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
+              <button onClick={incrementQuantity} className="bg-gray-900 text-white px-2 md:px-4 py-1 md:py-2 rounded-md hover:bg-gray-800">
                 +
               </button>
             </div>
           </div>
-          <button className=" w-40 bg-gray-900 text-white py-2 mt-5 rounded-md hover:bg-gray-600">
+          <button onClick={addToCart} className=" w-40 bg-gray-900 text-white py-2 mt-5 rounded-md hover:bg-gray-600">
             Add to Cart
           </button>
           <p className="font-semibold text-gray-800 my-4">Description: {productDetails.description}</p>
@@ -112,6 +152,20 @@ export default function ProductDetails() {
 
     </>
   )}
+
+<ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"
+/>
+   
 </div>
 
   );

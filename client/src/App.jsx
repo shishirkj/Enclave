@@ -19,11 +19,16 @@ import UpdatePassword from "./components/profile/UpdatePassword";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import Loading from "./components/Loading.jsx/Loading";
 import ResetPassword from "./components/authentication/ResetPassword";
+import Cart from "./features/cart/Cart";
 
 export default function App() {
   const dispatch  = useDispatch()
   
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
+  
+
+
+
 
 
 
@@ -62,10 +67,11 @@ export default function App() {
               <Route path='/updateProfile' element={<ProtectedRoute Component={UpdateProfile}/>}/>
               <Route path='/updatePassword' element={<ProtectedRoute Component={UpdatePassword}/>}/>
               <Route path = '/resetPassword/:token' element = {<ResetPassword/>}/>
+              <Route path='/cart' element={<ProtectedRoute Component={Cart}/>}/>
               <Route path="/loading" element={ <Loading/>} /> 
               <Route path= '*'  element = {<NoMatchFound />}/>
             </Routes>
-            {isAuthenticated?<Footer/>:''}  
+            {(isAuthenticated)?<Footer/>:''}  
      
       </div>
     </Router>

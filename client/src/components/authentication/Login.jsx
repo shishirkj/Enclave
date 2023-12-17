@@ -421,7 +421,7 @@ setLoginForm({ ...loginForm, email: '' });
               <div className="mt-6 text-center ">
                 <a
                   onClick={() => setLogin(true)}
-                  className="text-MD text-gray-900 hover:underline cursor-pointer"
+                  className="text-MD text-blue-600 hover:underline cursor-pointer"
                 >
                   Already have an account?
                 </a>

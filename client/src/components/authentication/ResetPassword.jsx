@@ -40,7 +40,6 @@ export default function ResetPassword() {
     console.log("password changed")
     navigate('/login')
     dispatch(isSuccess())
-    
     }
   },[error,success,dispatch,navigate])
   
