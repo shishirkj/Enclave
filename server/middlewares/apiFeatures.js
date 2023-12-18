@@ -4,7 +4,7 @@ class apiFeatures{
         this.queryStr = queryStr
     }
 
-    search() {
+      search() {
         const key = this.queryStr.key
           ? {
               name: {
