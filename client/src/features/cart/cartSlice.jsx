@@ -3,6 +3,8 @@ import fetchProductDetails from '../productDetails/productDetailsApi';
 
 const initialState = {
   cartItems: [],
+  shippingInfo:{},
+  orderInfo:{},
   status: 'idle',
   error:'',
 showFooter:true
@@ -31,7 +33,7 @@ export const addAsync = createAsyncThunk(
 
 
 
-//delete item from cart
+//delete item from cart 
 export const deleteAsync = createAsyncThunk(
   'cart/deleteItems',
   async ({productId}) => {
@@ -40,6 +42,20 @@ export const deleteAsync = createAsyncThunk(
     return response   
   }
 );
+
+
+
+//setting shippingInfo object
+export const shippingAsync = createAsyncThunk(
+  'shiiping/shippingInfo',
+  async ({data},thunkAPI) => {
+    const currentState = thunkAPI.getState();
+    let response =data
+    sessionStorage.setItem("cartItems", JSON.stringify(currentState.cart.shippingInfo));
+    return response   
+  }
+);
+
 
 
 
@@ -110,6 +126,16 @@ export const cartSlice = createSlice({
         state.error = action.error.message;
       })
      
+
+      //shippingAsync
+      .addCase(shippingAsync.fulfilled, (state,action) => {
+        state.status = 'idle';
+        state.shippingInfo=action.payload
+        // Saveing the updated cartItems to localStorage
+        sessionStorage.setItem("shippingInfo", JSON.stringify(state.shippingInfo));
+        state.error=''
+        
+      })
 
   },
 });

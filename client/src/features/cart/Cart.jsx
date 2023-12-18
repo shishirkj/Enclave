@@ -1,13 +1,14 @@
 import { useSelector,useDispatch} from "react-redux"
 import { addAsync, deleteAsync } from "./cartSlice"
-
+import { useNavigate } from "react-router-dom";
 
 
 export default function Cart() {
 
+
  const {cartItems} = useSelector((state)=>state.cart)
 
-
+const navigate = useNavigate()
 const dispatch = useDispatch();
 
 const increaseQuantity = (id, quantity, stock) => {
@@ -29,7 +30,7 @@ const decrementQuantity=(quantity,id)=>{
     dispatch(addAsync({ productId: id, quantity: newQty }))
 }
 
-let sum =0;
+let sum =0;let total;
 if(cartItems.length!=0)
 { 
   
@@ -39,6 +40,7 @@ if(cartItems.length!=0)
     const{quantity,price} = cartItems[i]
      sum+=price*quantity
   }
+   total=sum* 1.18;
 }
 
 
@@ -117,18 +119,18 @@ if(cartItems.length!=0)
         <p className="text-gray-700">₹{sum}</p>
       </div>
       <div className="flex justify-between">
-        <p className="text-gray-700">Shipping</p>
-        <p className="text-gray-700">₹{sum===0?0:4.99}</p>
+        <p className="text-gray-700">GST</p>
+        <p className="text-gray-700">{sum===0?0:18}%</p>
       </div>
       <hr className="my-4" />
       <div className="flex justify-between">
         <p className="text-lg font-bold">Total</p>
         <div className="">
-          <p className="mb-1 text-lg font-bold">₹{sum===0?0:sum+4.99}</p>
+          <p className="mb-1 text-lg font-bold">₹{sum===0?0:total+4.99}</p>
           <p className="text-sm text-gray-700">including VAT</p>
         </div>
       </div>
-      <button className="mt-6 w-full rounded-md bg-gray-900 py-1.5 font-medium text-blue-50 hover:bg-gray-800">
+      <button onClick={()=>navigate('/shipping')} className="mt-6 w-full rounded-md bg-gray-900 py-1.5 font-medium text-blue-50 hover:bg-gray-800">
         Check out
       </button>
     </div>

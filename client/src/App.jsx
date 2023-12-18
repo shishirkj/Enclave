@@ -9,8 +9,8 @@ import FilterProducts from "./features/Search/FilterProducts";
 import Category from './features/Search/Category'
 import Login from "./components/authentication/Login";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect,useState } from "react";
+import { useDispatch} from "react-redux";
 import { getUserDetailAsync } from "./components/authentication/loginSlice";
 import Profile from "./components/profile/Profile";
 import UpdateProfile from "./components/profile/updateProfile";
@@ -20,6 +20,11 @@ import ProtectedRoute from "./components/Route/ProtectedRoute";
 import Loading from "./components/Loading.jsx/Loading";
 import ResetPassword from "./components/authentication/ResetPassword";
 import Cart from "./features/cart/Cart";
+import Shipping from "./features/shipping/shipping";
+import axios from "axios";
+
+
+
 
 export default function App() {
   const dispatch  = useDispatch()
@@ -27,7 +32,15 @@ export default function App() {
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
   
 
+// eslint-disable-next-line no-unused-vars
+const [paymentApi,setPaymentApi] = useState('')
 
+
+const payApi = async()=>{ 
+  
+const {data} = await axios.get('api/v1/paymentapi')
+ setPaymentApi(data.stripeApiKey);
+}
 
 
 
@@ -41,7 +54,7 @@ export default function App() {
   
   
 
-
+          payApi()
 
 
   return (
@@ -68,6 +81,7 @@ export default function App() {
               <Route path='/updatePassword' element={<ProtectedRoute Component={UpdatePassword}/>}/>
               <Route path = '/resetPassword/:token' element = {<ResetPassword/>}/>
               <Route path='/cart' element={<ProtectedRoute Component={Cart}/>}/>
+              <Route path='/shipping'element={<Shipping/>}/>
               <Route path="/loading" element={ <Loading/>} /> 
               <Route path= '*'  element = {<NoMatchFound />}/>
             </Routes>
