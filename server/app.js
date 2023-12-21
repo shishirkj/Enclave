@@ -13,8 +13,11 @@ import { config } from "dotenv";
 const app = express();
 
 //middlewares
+// without this u cant read cookie the req.body
 app.use(cookieParser())
+// without this u cant read the req.body(basically parsing the data)
 app.use(express.json())
+// body-parser is for form extended true
 
 config({
     path: "C:/Users/reach/Desktop/enclave/server/data/config.env",
@@ -22,8 +25,8 @@ config({
   
   
 app.use(cors({
-    origin: "http://localhost:5173",  // Update with your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["http://localhost:5173","https://stripe.com"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));
 

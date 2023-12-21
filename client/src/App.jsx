@@ -9,7 +9,7 @@ import FilterProducts from "./features/Search/FilterProducts";
 import Category from './features/Search/Category'
 import Login from "./components/authentication/Login";
 import { useSelector } from "react-redux";
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import { useDispatch} from "react-redux";
 import { getUserDetailAsync } from "./components/authentication/loginSlice";
 import Profile from "./components/profile/Profile";
@@ -21,8 +21,8 @@ import Loading from "./components/Loading.jsx/Loading";
 import ResetPassword from "./components/authentication/ResetPassword";
 import Cart from "./features/cart/Cart";
 import Shipping from "./features/shipping/shipping";
-import axios from "axios";
-
+import Payment from "./features/shipping/payment";
+import Completion from "./features/shipping/Completion";
 
 
 
@@ -32,15 +32,6 @@ export default function App() {
   const isAuthenticated = useSelector(state=>state.login.isAuthenticated)
   
 
-// eslint-disable-next-line no-unused-vars
-const [paymentApi,setPaymentApi] = useState('')
-
-
-const payApi = async()=>{ 
-  
-const {data} = await axios.get('api/v1/paymentapi')
- setPaymentApi(data.stripeApiKey);
-}
 
 
 
@@ -48,13 +39,13 @@ const {data} = await axios.get('api/v1/paymentapi')
     useEffect(() => {
 
         dispatch(getUserDetailAsync());
-     
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
   
   
 
-          payApi()
+        
 
 
   return (
@@ -81,7 +72,9 @@ const {data} = await axios.get('api/v1/paymentapi')
               <Route path='/updatePassword' element={<ProtectedRoute Component={UpdatePassword}/>}/>
               <Route path = '/resetPassword/:token' element = {<ResetPassword/>}/>
               <Route path='/cart' element={<ProtectedRoute Component={Cart}/>}/>
-              <Route path='/shipping'element={<Shipping/>}/>
+              <Route path='/shipping'element={<Shipping />}/>
+              <Route path='/payment'element={<Payment/>}/>
+              <Route path='/completion'element={<Completion/>}/>
               <Route path="/loading" element={ <Loading/>} /> 
               <Route path= '*'  element = {<NoMatchFound />}/>
             </Routes>

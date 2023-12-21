@@ -4,7 +4,6 @@ import fetchProductDetails from '../productDetails/productDetailsApi';
 const initialState = {
   cartItems: [],
   shippingInfo:{},
-  orderInfo:{},
   status: 'idle',
   error:'',
 showFooter:true
@@ -49,9 +48,10 @@ export const deleteAsync = createAsyncThunk(
 export const shippingAsync = createAsyncThunk(
   'shiiping/shippingInfo',
   async ({data},thunkAPI) => {
+   
     const currentState = thunkAPI.getState();
     let response =data
-    sessionStorage.setItem("cartItems", JSON.stringify(currentState.cart.shippingInfo));
+    localStorage.setItem("shippingInfo", JSON.stringify(currentState.cart.shippingInfo));
     return response   
   }
 );
@@ -132,7 +132,7 @@ export const cartSlice = createSlice({
         state.status = 'idle';
         state.shippingInfo=action.payload
         // Saveing the updated cartItems to localStorage
-        sessionStorage.setItem("shippingInfo", JSON.stringify(state.shippingInfo));
+        localStorage.setItem("shippingInfo", JSON.stringify(state.shippingInfo));
         state.error=''
         
       })

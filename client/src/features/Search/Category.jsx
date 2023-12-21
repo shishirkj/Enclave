@@ -44,7 +44,7 @@ export default function Category() {
         setPrice([value,25000])
         
     }
-  
+
     const options = {
       edit: false,
       color: "rgba(20,20,20,0.1)",
@@ -64,9 +64,10 @@ export default function Category() {
  
 
   return (
-    <div>
-        <div className='flex  md:h-[2000px]'>
-      <div className="relative w-1/5 bg-gray-900 ">
+    <div >
+        <hr/>
+        <div className='flex md:h-[2000px]'>
+      <div className="relative  w-1/5 bg-gray-900 ">
   
   <p className=" mt-7 mb-2 text-xs md:text-sm lg:text-lg xl:text-base lg:pl-5 md:pl-2 text-white font-roboto">Price Range</p>
 
@@ -80,7 +81,7 @@ export default function Category() {
     return `Value: ${value}`;
   }}
    />
-
+<p className="text-white mb-9">Above ₹{price[0]}</p>
 
         {categories.map((category, index) => (
           <div className="p-2 py-4" key={index}>
@@ -104,7 +105,7 @@ export default function Category() {
           <Loading />
         ) : (
           <>
-          <div className= 'relative h-screen flex flex-wrap justify-center w-4/5 md:flex md:flex-wrap md:justify-center  '>
+          <div className= 'relative h-full flex flex-wrap justify-center w-4/5 md:flex md:flex-wrap md:justify-center  '>
             {products &&
               products.map((product) => (
                 <Link to={`/product/${product._id}`} key={product._id}>
@@ -160,7 +161,7 @@ export default function Category() {
                             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                           />
                         </svg>
-                        Add to cart
+                       Product Detail
                       </div>
                     </div>
                   </div>

@@ -8,8 +8,9 @@ import cartReducer from './features/cart/cartSlice'
 
 
 const cartItemsFromStorage = localStorage.getItem("cartItems");
+const shippingInfoFromStorage = localStorage.getItem('shippingInfo')
 
-let cartItems;
+let cartItems,shippingInfo;
 
 if (cartItemsFromStorage) {
   try {
@@ -21,6 +22,15 @@ if (cartItemsFromStorage) {
   cartItems = [];
 }
 
+
+if(shippingInfoFromStorage)
+{ 
+  try {
+    shippingInfo = JSON.parse(shippingInfoFromStorage)
+  } catch (error) {
+    shippingInfo = {};
+  }
+}
 const store = configureStore({
   reducer: {
     product: productReducer,
@@ -31,6 +41,7 @@ const store = configureStore({
   preloadedState: {
     cart: {
       cartItems,
+      shippingInfo
     }
   }
 });
