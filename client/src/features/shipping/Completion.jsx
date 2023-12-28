@@ -1,8 +1,59 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useLocation } from "react-router-dom";
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function Completion() {
+  const {shippingInfo,cartItems} = useSelector((state) => state.cart);
+  const {sumTotal,ship} = useSelector((state) => state.cart.shippingInfo);
+  const {_id} = useSelector(state=>state.login?.form?.user)
 
+const {state} = useLocation();
+
+
+
+  useEffect(()=>{ 
+    const orderConfirmation=async()=>{ 
+try {
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  const orderData = {
+   shippingInfo,cartItems,
+   totalPrice:sumTotal,
+   "itemsPrice": (sumTotal-ship),
+   "taxPrice": 18,
+   "shippingPrice":ship,
+   "paymentInfo": {
+    "id": state,  
+    "status": "Paid"
+  },
+  userId:_id
+
+  };
+
+  const modify = JSON.stringify(orderData)
+
+const response = await axios.post('http://localhost:5000/api/v1/order/new',modify,config);
+console.log(response);
+if(response)
+{ 
+  toast.success("Order Created")
+}
+
+} catch (error) {
+  console.log(error)
+}
+    }
+    orderConfirmation();    
+
+    },[cartItems,ship,shippingInfo,sumTotal,state,_id])
     const navigate = useNavigate();
     return ( 
         <>
@@ -37,6 +88,19 @@ function Completion() {
       </div>
     </div>
   </div>
+  
+<ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"
+/>
 </>
 
     )

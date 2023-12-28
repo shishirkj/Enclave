@@ -9,8 +9,11 @@ import Product from "../models/productModel.js";
 
 export const createOrder = async(req,res,next)=>{ 
     try {
-        const{ shippingInfo,orderItems,paymentInfo, itemsPrice,taxPrice,shippingPrice,totalPrice,} = req.body
 
+
+        const{ shippingInfo,cartItems,paymentInfo, itemsPrice,taxPrice,shippingPrice,totalPrice,userId} = req.body
+
+        const orderItems = cartItems;
 
         const order = await Order.create({ shippingInfo,
             orderItems,
@@ -20,7 +23,7 @@ export const createOrder = async(req,res,next)=>{
             shippingPrice,
             totalPrice,
             paidAt: Date.now(),
-            user: req.user._id,})
+            user:userId})
     
     
     
@@ -61,9 +64,9 @@ try {
 // get logged in user  Orders
 export const myOrders = async(req,res,next)=>{ 
     try {
-        console.log(req.user);
+        
         const{_id} = req.user;
-        console.log(_id);
+       
         const orders =await Order.find({user:_id});
 
      res.status(200).json({ 

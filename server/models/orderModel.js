@@ -24,19 +24,31 @@ const orderSchema = new mongoose.Schema({
       default:"India",
     },
     pinCode: {
-      type: Number,
+      type: String,
       required: true,
     },
     phoneNo: {
       type: Number,
       required: true,
     },
+    name:{ 
+      type:String,
+    },
+    ship:{ 
+      type:Number
+    },
+    sumTotal:{ 
+      type:Number
+    }
   },
   orderItems: [
     {
       name: {
         type: String,
         required: true,
+      },
+      _id:{
+        type:String,
       },
       price: {
         type: Number,
@@ -46,20 +58,17 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      stock:{ 
+        type:Number
+      },
       image: {
         type: String,
-        required: true,
-      },
-      product: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Product",
         required: true,
       },
     },
   ],
   user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+    type: String,
     required: true,
   },
   paymentInfo: {

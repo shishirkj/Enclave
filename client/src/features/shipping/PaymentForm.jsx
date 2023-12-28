@@ -1,9 +1,10 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-
+import { useNavigate } from "react-router-dom";
 
 export default function PaymentForm() {
+const navigate = useNavigate()
 const stripe = useStripe();
   const elements = useElements();
 
@@ -27,13 +28,21 @@ const stripe = useStripe();
     setIsProcessing(true);
 
 
-    const { error } = await stripe.confirmPayment({
+    const {paymentIntent,error} = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
       },
+      redirect: 'if_required'
     });
+
+    console.log(paymentIntent.id);
+   
+    if(!error)
+    {
+      navigate('/completion', { state:paymentIntent.id});
+      return;
+    }
 
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
@@ -41,7 +50,8 @@ const stripe = useStripe();
     
    
     else {
-      console.log(error)
+      console.log(error);
+     
       setMessage("An unexpected error occured.");
     }
 

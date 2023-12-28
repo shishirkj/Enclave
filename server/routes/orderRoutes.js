@@ -4,11 +4,13 @@ import express from 'express'
 
 
 
+
+
 const orderRoute = express.Router();
 
 
 orderRoute
-        .post('/order/new',isAuthenticated,createOrder)
+        .post('/order/new',createOrder)
         .get('/order/:id',isAuthenticated,getSingleOrder)
         .get('/orders/me',isAuthenticated,myOrders)
         .get('/admin/orders',isAuthenticated,authorizeRoles("admin"),getAllOrders)

@@ -49,7 +49,6 @@ export default function Payment() {
           phoneNo,
           name
       });
-  console.log(requestData)
       const response = await axios.post(
         "http://localhost:5000/api/v1/payment",requestData,config);
           let secret = response.data.client_secret

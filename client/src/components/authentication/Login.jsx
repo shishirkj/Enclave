@@ -47,7 +47,7 @@ const handleLoginInputs=(e)=>{
   
 
 const handleFileChange = (e) => {
-  console.log(e.target.files)
+
   const file = e.target.files[0];
   setForm((prevForm) => ({ ...prevForm, avatar: file }));
   if (file) {
@@ -82,7 +82,7 @@ const handleFileChange = (e) => {
         return
       }
       const myForm = new FormData();
-console.log(name,email,password,avatar)
+
       myForm.set("name", name);
       myForm.set("email", email);
       myForm.set("password", password);
@@ -168,7 +168,7 @@ setLoginForm({ ...loginForm, email: '' });
           <form className="w-full max-w-md" onSubmit={loginUser}>
             <div className="flex justify-center mx-auto">
               <h1 className="text-5xl pb-7 font-extrabold underline font-fijila">
-                <span className=" text-gray-900 ">Envc</span>
+                <span className=" text-gray-900 ">Enc</span>
                 <span className="text-blue-600">lave</span>
               </h1>
             </div>

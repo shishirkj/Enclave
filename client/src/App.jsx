@@ -23,6 +23,7 @@ import Cart from "./features/cart/Cart";
 import Shipping from "./features/shipping/shipping";
 import Payment from "./features/shipping/payment";
 import Completion from "./features/shipping/Completion";
+import Order from "./features/order/Order";
 
 
 
@@ -74,7 +75,8 @@ export default function App() {
               <Route path='/cart' element={<ProtectedRoute Component={Cart}/>}/>
               <Route path='/shipping'element={<Shipping />}/>
               <Route path='/payment'element={<Payment/>}/>
-              <Route path='/completion'element={<Completion/>}/>
+              <Route path="/completion/" element={<Completion />}/>
+              <Route path = "/order" element={<Order/>}/>
               <Route path="/loading" element={ <Loading/>} /> 
               <Route path= '*'  element = {<NoMatchFound />}/>
             </Routes>

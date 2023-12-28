@@ -1,8 +1,15 @@
 
 
 import Stripe from 'stripe';
+import { config } from "dotenv";
 
-const stripe = new Stripe("sk_test_51OOklCSBqbT1dEMras2B1qjJz3cRpSXMLUtNMuiv2dZqtdvzOuKqyq9tqsJ9oiNyOgGqNsQawNU4uxoDYHDza4km00xdip5W2i");
+
+config({
+        path: "C:/Users/reach/Desktop/enclave/server/data/config.env",
+      });
+      
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 export const processPayment = async (req, res, next) => {
@@ -41,6 +48,8 @@ const amountInPaise = Math.round(amount * 100);
     next(error);
   }
 };
+
+
 
 
 export const getPaymentApiKey = async(req,res,next)=>{ 
