@@ -63,6 +63,8 @@ const handleFileChange = (e) => {
   }
 };
   
+
+//register user
   const registerUser = (e) => {
     e.preventDefault();
       const {name,password,email,avatar}=form;  
@@ -134,6 +136,8 @@ toast.success("Password Link sent successfully")
 },[error,passwordSent,dispatch])
 
 
+
+//forgot password
 const forgotPassword=()=>{ 
 const {email}= loginForm;
 

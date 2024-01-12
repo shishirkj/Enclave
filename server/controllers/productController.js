@@ -5,7 +5,7 @@ import apiFeatures from "../middlewares/apiFeatures.js";
 // create prod --admin
 export const createProduct = async (req, res, next) => {
   try {
-    //belwo is for to check who created the product 
+    //below we r using req.user.id to check who created the product 
     req.body.user = req.user.id;
 
     const product = await Product.create(req.body);

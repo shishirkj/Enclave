@@ -13,9 +13,9 @@ import { config } from "dotenv";
 const app = express();
 
 //middlewares
-// without this u cant read cookie the req.body
+// without this we cant read cookie the req.body
 app.use(cookieParser())
-// without this u cant read the req.body(basically parsing the data)
+// without this we cant read the req.body(basically parsing the data)
 app.use(express.json())
 // body-parser is for form extended true
 
