@@ -10,8 +10,14 @@
    ```bash
    git clone https://github.com/yourusername/project-name.git
 2.Navigate into the project directory:
-   cd server
+
+  
 ## server side
+
+
+ cd server
+
+ 
 3.Install dependencies for server:
 
 npm install
