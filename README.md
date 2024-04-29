@@ -58,9 +58,7 @@ These are the environment variables required to run the application:
 ## client side
 6.cd ../client
 
-npm install
-or
-yarn
+
 
 7.npm run dev
 
