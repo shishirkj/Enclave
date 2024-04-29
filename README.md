@@ -50,6 +50,9 @@ These are the environment variables required to run the application:
 - **STRIPE_SECRET_KEY**: Secret API key for Stripe integration
 
 4.cd/server
+
+
+
 5.npm run dev
 
 ## client side
